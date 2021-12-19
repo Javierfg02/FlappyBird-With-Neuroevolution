@@ -1,6 +1,5 @@
 package Flappy;
 
-import doodlejump.Constants;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,7 +26,7 @@ public class FlappyGame {
     }
 
     private void setUpTimeline() {
-        KeyFrame kf = new KeyFrame(Duration.seconds(Constants.DURATION),
+        KeyFrame kf = new KeyFrame(Duration.seconds(FlapConstants.DURATION),
                 (ActionEvent e) -> this.updateTimeline());
         this.timeline = new Timeline(kf);
         this.timeline.setCycleCount(Animation.INDEFINITE);
