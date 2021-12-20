@@ -31,7 +31,7 @@ public class Pipe {
      * Method that sets the weed pipe image for the pipes.
      */
     private void weedPipe() {
-        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream(".png")));
+        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("weedPipe.png")));
         ImagePattern imagePattern = new ImagePattern(image);
         this.bottomPipe.setFill(imagePattern);
         this.topPipe.setFill(imagePattern);
