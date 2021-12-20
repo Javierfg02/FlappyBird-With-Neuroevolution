@@ -5,24 +5,24 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 public class Controls {
     private FlappyGame flappyGame;
     private RadioButton[] gameMode;
     private HBox controlsPane;
-    private VBox gameModeMenu;
+    private HBox gameModeMenu;
+    private boolean settingsApplied;
 
     public Controls(FlappyGame flappyGame) {
         this.flappyGame = flappyGame;
         this.setUpPane();
         this.setupMenu();
         this.setUpButtons();
+        this.settingsApplied = false;
     }
 
     public Pane getPane() {
@@ -34,16 +34,18 @@ public class Controls {
         this.controlsPane.setPrefHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setMaxHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setPrefWidth(FlapConstants.APP_WIDTH);
-        this.controlsPane.setSpacing(20);
+        this.controlsPane.setSpacing(10);
         this.controlsPane.setPadding(new Insets(10));
         this.controlsPane.setAlignment(Pos.CENTER);
+        this.controlsPane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID,
+                CornerRadii.EMPTY, new BorderWidths(3))));
     }
 
     private void setupMenu() {
         this.gameMode = new RadioButton[2];
 
-        this.gameModeMenu = new VBox();
-        this.gameModeMenu.setSpacing(15);
+        this.gameModeMenu = new HBox();
+        this.gameModeMenu.setSpacing(20);
         this.gameModeMenu.setAlignment(Pos.CENTER_RIGHT);
         this.gameModeMenu.setPrefWidth(FlapConstants.APP_WIDTH);
 
@@ -84,12 +86,16 @@ public class Controls {
     }
 
     private void applySettings(ActionEvent e) {
-        if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
-            this.flappyGame.setPlayers(FlapConstants.MANUAL_GAME_MODE);
-        } else if (this.gameMode[FlapConstants.COMPUTER_GAME_MODE].isSelected()) {
-            this.flappyGame.setPlayers(FlapConstants.COMPUTER_GAME_MODE);
+        if (!this.settingsApplied) {
+            if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
+                this.flappyGame.setPlayers(FlapConstants.MANUAL_GAME_MODE);
+            } else if (this.gameMode[FlapConstants.COMPUTER_GAME_MODE].isSelected()) {
+                this.flappyGame.setPlayers(FlapConstants.COMPUTER_GAME_MODE);
+            }
         }
     }
 
-    private void resetHandler(ActionEvent e) { }
+    private void resetHandler(ActionEvent e) {
+        this.settingsApplied = true;
+    }
 }

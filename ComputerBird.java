@@ -2,6 +2,8 @@ package Flappy;
 
 import javafx.scene.layout.Pane;
 
+import java.util.ArrayList;
+
 public class ComputerBird implements Flappable {
     private Pane flappyPane;
     private Bird bird;
@@ -32,5 +34,10 @@ public class ComputerBird implements Flappable {
     @Override
     public void setCurrentVelocity(double v) {
         this.bird.setCurrentVelocity(v);
+    }
+
+    @Override
+    public boolean checkIntersection(Pipe pipe) {
+        return this.bird.checkIntersection(pipe);
     }
 }

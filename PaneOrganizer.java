@@ -4,7 +4,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
 public class PaneOrganizer {
-    private BorderPane root;
+    private final BorderPane root;
 
     public PaneOrganizer() {
         this.root = new BorderPane();
@@ -13,7 +13,7 @@ public class PaneOrganizer {
         FlappyGame flappyGame = new FlappyGame(flappyPane);
         this.root.setCenter(flappyPane);
         Controls controls = new Controls(flappyGame);
-        this.root.setBottom(controls.getPane()) ;
+        this.root.setBottom(controls.getPane());
     }
 
     public Pane getRoot() {

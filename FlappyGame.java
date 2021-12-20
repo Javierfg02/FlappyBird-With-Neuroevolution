@@ -19,7 +19,7 @@ public class FlappyGame {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
-        new Pipe(flappyPane, 500, 10);
+        new Pipe(flappyPane, 500, 250);
     }
 
     public void setPlayers(int gameMode) {

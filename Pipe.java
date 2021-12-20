@@ -4,6 +4,9 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
+
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Pipe {
@@ -14,19 +17,33 @@ public class Pipe {
     public Pipe(Pane flappyPane, double x, double bottomPipeHeight) {
         this.flappyPane = flappyPane;
         // create the bottomPipe with the variables passed in
-        this.bottomPipe = new Rectangle(x, FlapConstants.FLAPPY_PANE_HEIGHT, FlapConstants.PIPE_WIDTH, bottomPipeHeight);
+        this.bottomPipe = new Rectangle(x, bottomPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
         // create the top pipe based on the variables passed in to the bottom pipe
-        double topPipeHeight = FlapConstants.FLAPPY_PANE_HEIGHT - bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
-        this.topPipe = new Rectangle(x, 0, FlapConstants.PIPE_WIDTH, topPipeHeight);
-        System.out.println(this.topPipe.getLayoutY() - this.bottomPipe.getLayoutY());
+        double topPipeHeight = bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
+
+        this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
         // set the image for both pipes
-//        this.weedPipe();
+//        this.weedPipe(); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
-//        this.topPipe.setRotate(180);
-        this.flappyPane.getChildren().addAll(this.bottomPipe, this.topPipe) ;
+        this.rotateTopPipe(this.topPipe);
+        this.flappyPane.getChildren().addAll(this.bottomPipe, this.topPipe);
+    }
+
+    /**
+     * Method that rotates the top pipe so that it is aligned correctly
+     * @param topPipe The top pipe that we want to rotate
+     */
+    private void rotateTopPipe(Rectangle topPipe) {
+        double rotationCenterX = (topPipe.getX() + (FlapConstants.PIPE_WIDTH / 2));
+        double rotationCenterY = topPipe.getY();
+        Rotate rotate = new Rotate();
+        rotate.setAngle(180);
+        rotate.setPivotX(rotationCenterX);
+        rotate.setPivotY(rotationCenterY);
+        topPipe.getTransforms().addAll(rotate);
     }
 
     /**
@@ -39,15 +56,23 @@ public class Pipe {
         this.topPipe.setFill(imagePattern);
     }
 
+    public void scrollPipes() {
+        this.topPipe.setX(this.topPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
+        this.bottomPipe.setX(this.bottomPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
+    }
+
     /**
      * Method that sets the y locations of the pipes so that there is a constant gap between them.
      */
-    public void pipeY() {
+    public double getTopPipeY() {
+        return this.topPipe.getY();
+    }
 
+    public double getBottomPipeY() {
+        return this.bottomPipe.getY();
     }
 
     public double getPipeX() {
         return this.bottomPipe.getX();
     }
-
 }

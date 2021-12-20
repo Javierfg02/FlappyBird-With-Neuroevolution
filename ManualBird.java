@@ -44,4 +44,9 @@ public class ManualBird implements Flappable {
     public void setCurrentVelocity(double v) {
         this.bird.setCurrentVelocity(v);
     }
+
+    @Override
+    public boolean checkIntersection(Pipe pipe) {
+        return this.bird.checkIntersection(pipe);
+    }
 }
