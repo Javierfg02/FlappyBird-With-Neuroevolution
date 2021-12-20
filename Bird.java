@@ -2,7 +2,7 @@ package Flappy;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-     import javafx.scene.paint.ImagePattern;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.util.Objects;

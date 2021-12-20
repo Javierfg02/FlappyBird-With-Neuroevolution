@@ -9,22 +9,24 @@ import java.util.Objects;
 public class Pipe {
     private Rectangle bottomPipe;
     private Rectangle topPipe;
+    private Pane flappyPane;
 
-    public Pipe(Pane flappyPane, double x, double y, double bottomPipeHeight) {
+    public Pipe(Pane flappyPane, double x, double bottomPipeHeight) {
+        this.flappyPane = flappyPane;
         // create the bottomPipe with the variables passed in
-        this.bottomPipe = new Rectangle(x, y, FlapConstants.PIPE_WIDTH, bottomPipeHeight);
+        this.bottomPipe = new Rectangle(x, FlapConstants.FLAPPY_PANE_HEIGHT, FlapConstants.PIPE_WIDTH, bottomPipeHeight);
 
         // create the top pipe based on the variables passed in to the bottom pipe
-        this.topPipe = new Rectangle(x, y - FlapConstants.PIPE_GAP_HEIGHT);
-        double topPipeHeight = flappyPane.getHeight() - bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
-        this.topPipe = new Rectangle(x, y, FlapConstants.PIPE_WIDTH, topPipeHeight);
+        double topPipeHeight = FlapConstants.FLAPPY_PANE_HEIGHT - bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
+        this.topPipe = new Rectangle(x, 0, FlapConstants.PIPE_WIDTH, topPipeHeight);
+        System.out.println(this.topPipe.getLayoutY() - this.bottomPipe.getLayoutY());
 
         // set the image for both pipes
-        this.weedPipe();
+//        this.weedPipe();
 
         // rotate the top pipe so that it is upside down
-        this.topPipe.setRotate(180);
-        flappyPane.getChildren().addAll(this.bottomPipe, this.topPipe);
+//        this.topPipe.setRotate(180);
+        this.flappyPane.getChildren().addAll(this.bottomPipe, this.topPipe) ;
     }
 
     /**

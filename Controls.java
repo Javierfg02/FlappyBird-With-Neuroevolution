@@ -47,10 +47,6 @@ public class Controls {
         this.gameModeMenu.setAlignment(Pos.CENTER_RIGHT);
         this.gameModeMenu.setPrefWidth(FlapConstants.APP_WIDTH);
 
-        Label instructions = new Label("Select option then press Apply Settings");
-
-        this.gameModeMenu.getChildren().add(instructions);
-
         ToggleGroup toggleGroup = new ToggleGroup();
 
         // Manual play
@@ -90,7 +86,7 @@ public class Controls {
     private void applySettings(ActionEvent e) {
         if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
             this.flappyGame.setPlayers(FlapConstants.MANUAL_GAME_MODE);
-        } else {
+        } else if (this.gameMode[FlapConstants.COMPUTER_GAME_MODE].isSelected()) {
             this.flappyGame.setPlayers(FlapConstants.COMPUTER_GAME_MODE);
         }
     }

@@ -19,13 +19,13 @@ public class FlappyGame {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
-        new Pipe(flappyPane, 300, 300, 50);
+        new Pipe(flappyPane, 500, 10);
     }
 
     public void setPlayers(int gameMode) {
         if (gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.bird = new ManualBird(this.flappyPane);
-        } else {
+        } else if (gameMode == FlapConstants.COMPUTER_GAME_MODE) {
             this.bird = new ComputerBird(this.flappyPane);
         }
     }
@@ -47,10 +47,11 @@ public class FlappyGame {
 
     }
 
+    // TODO shouldn't stay on the ground it should die.
     private void keepBirdInScreen() {
-        if (this.bird.getBirdY() > (this.flappyPane.getHeight() - 20)) {
+        if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT)) {
             this.bird.setCurrentVelocity(0);
-            this.bird.setBirdY(this.flappyPane.getHeight() - 20);
+            this.bird.setBirdY(FlapConstants.FLAPPY_PANE_HEIGHT);
         }
     }
 
