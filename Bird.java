@@ -8,17 +8,15 @@ import javafx.scene.shape.Circle;
 import java.util.Objects;
 
 public class Bird {
-    private Pane flappyPane;
     private Circle birdBody;
     private double currentVelocity;
 
     public Bird(Pane flappyPane) {
-        this.flappyPane = flappyPane;
         this.birdBody = new Circle(FlapConstants.BIRD_RADIUS,
                 0, FlapConstants.BIRD_RADIUS);
-        this.flappyPane.getChildren().add(this.birdBody);
         this.currentVelocity = 0;
         this.makeRoadManBird();
+        flappyPane.getChildren().add(this.birdBody);
     }
 
     public void gravity() {
@@ -26,6 +24,12 @@ public class Bird {
         double updatedPosition = this.getBirdY() + (updatedVelocity * FlapConstants.DURATION);
         this.currentVelocity = updatedVelocity;
         this.setYLoc(updatedPosition);
+    }
+
+    private void makeRoadManBird() {
+        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("roadmanBird.png")));
+        ImagePattern imagePattern = new ImagePattern(image);
+        this.birdBody.setFill(imagePattern);
     }
 
     public void setYLoc(double y) {
@@ -40,9 +44,4 @@ public class Bird {
         this.currentVelocity = v;
     }
 
-    public void makeRoadManBird() {
-        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("roadmanBird.png")));
-        ImagePattern imagePattern = new ImagePattern(image);
-        this.birdBody.setFill(imagePattern);
-    }
 }

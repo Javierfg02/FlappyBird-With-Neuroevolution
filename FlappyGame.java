@@ -7,14 +7,19 @@ import javafx.event.ActionEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+
 public class FlappyGame {
     private Pane flappyPane;
     private Flappable bird;
     private Timeline timeline;
+    private ArrayList<Pipe> pipeStorage;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
+        this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
+        new Pipe(flappyPane, 300, 300, 50);
     }
 
     public void setPlayers(int gameMode) {
@@ -43,9 +48,21 @@ public class FlappyGame {
     }
 
     private void keepBirdInScreen() {
-        if (this.bird.getBirdY() > (FlapConstants.APP_HEIGHT - 255)) {
+        if (this.bird.getBirdY() > (this.flappyPane.getHeight() - 20)) {
             this.bird.setCurrentVelocity(0);
-            this.bird.setBirdY(FlapConstants.APP_HEIGHT - 255);
+            this.bird.setBirdY(this.flappyPane.getHeight() - 20);
         }
     }
+
+//    private void createPipes() {
+//        Pipe nearestPipe = this.nearestPipe();
+//        while (this.pipeStorage.size() <= 1) {
+//
+//        }
+//    }
+
+//    private Pipe nearestPipe() {
+//
+//        }
+//    }
 }

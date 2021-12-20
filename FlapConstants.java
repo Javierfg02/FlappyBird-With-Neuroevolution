@@ -17,4 +17,7 @@ public class FlapConstants {
     public static final int BIRD_RADIUS = 50;
 
     public static final int FLAP_VELOCITY = -500;
+
+    public static final int PIPE_WIDTH = 50;
+    public static final int PIPE_GAP_HEIGHT = 100;
 }
