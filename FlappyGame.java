@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class FlappyGame {
     private Pane flappyPane;
-    private Flappable bird;
+    private Bird bird;
     private Timeline timeline;
     private ArrayList<Pipe> pipeStorage;
 

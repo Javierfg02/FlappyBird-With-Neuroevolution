@@ -6,8 +6,8 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import java.util.Objects;
 
-public class Bird {
-    private Circle birdBody;
+public class Bird implements Flappable {
+    private final Circle birdBody;
     private double currentVelocity;
 
     public Bird(Pane flappyPane) {
@@ -17,6 +17,12 @@ public class Bird {
         this.makeRoadManBird();
         flappyPane.getChildren().add(this.birdBody);
     }
+
+    /**
+     * No need to define method here
+     */
+    @Override
+    public void flap() { }
 
     public void gravity() {
         double updatedVelocity = this.currentVelocity + (FlapConstants.DURATION * FlapConstants.GRAVITY);
@@ -55,8 +61,11 @@ public class Bird {
         return this.birdBody.getCenterY();
     }
 
+    public void setBirdY(double y) {
+        this.birdBody.setCenterY(y);
+    }
+
     public void setCurrentVelocity(double v) {
         this.currentVelocity = v;
     }
-
 }
