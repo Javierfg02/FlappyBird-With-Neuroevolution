@@ -141,8 +141,8 @@ public class FlappyGame {
     }
 
     private void gameOver() {
-        // TODO add animation for bird dying.
-        this.timeline.stop(); // stops timeline
+        this.deadAnimation();
+        this.timeline.stop();
         Label label = new Label("Wasted");
         VBox labelBox = new VBox(label);
         labelBox.setAlignment(Pos.CENTER);
@@ -159,9 +159,13 @@ public class FlappyGame {
         }
 
         label.setEffect(shadow);
+        this.flappyPane.setOnKeyPressed(null);
         this.flappyPane.getChildren().add(labelBox);
-        this.flappyPane.setOnKeyPressed(null); // makes doodle unresponsive to key input
         labelBox.setFocusTraversable(false);
+    }
+
+    private void deadAnimation() {
+        this.bird.dropDead();
     }
 }
 

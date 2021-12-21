@@ -1,9 +1,12 @@
 package Flappy;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
+
 import java.util.Objects;
 
 public class Bird implements Flappable {
@@ -50,6 +53,16 @@ public class Bird implements Flappable {
         } else {
             return false;
         }
+    }
+
+    public void dropDead() {
+        TranslateTransition dropDead = new TranslateTransition();
+        dropDead.setNode(this.birdBody);
+        double height = FlapConstants.APP_HEIGHT - this.birdBody.getCenterY() - FlapConstants.CONTROLS_PANE_HEIGHT;
+        dropDead.setDuration(Duration.millis(1000));
+        dropDead.setCycleCount(1);
+        dropDead.setByY(height);
+        dropDead.play();
     }
 
     public void setYLoc(double y) {
