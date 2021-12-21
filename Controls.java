@@ -77,7 +77,7 @@ public class Controls {
     }
 
     private void setUpButtons() {
-        Button applySettings = new Button("Apply Settings");
+        Button applySettings = new Button("Play");
         applySettings.setOnAction((ActionEvent e) -> this.applySettings(e));
         applySettings.setFocusTraversable(false);
 
