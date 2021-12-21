@@ -25,6 +25,8 @@ public class FlapConstants {
     public static final int PIPE_WIDTH = 100;
     public static final int PIPE_GAP_HEIGHT = 200;
 
+    public static final int FIRST_PIPE_X = 1500;
+
     public static final int PIPE_HIGH_BOUND = 250;
     public static final int PIPE_LOW_BOUND = 630;
     public static final int PIPE_X_SPACING = 500;
