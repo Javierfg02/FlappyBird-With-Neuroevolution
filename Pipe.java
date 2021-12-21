@@ -24,7 +24,7 @@ public class Pipe {
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
         // set the image for both pipes
-        this.weedPipe(); // TODO fix :(
+//        this.weedPipe(); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
