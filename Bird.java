@@ -17,7 +17,7 @@ public class Bird implements Flappable {
         this.birdBody = new Circle((FlapConstants.APP_WIDTH / 2) - 50,
                 0, FlapConstants.BIRD_RADIUS);
         this.currentVelocity = 0;
-        this.makeRoadManBird();
+        this.makeRoadManBird("roadmanBird.png");
         flappyPane.getChildren().add(this.birdBody);
     }
 
@@ -34,8 +34,8 @@ public class Bird implements Flappable {
         this.setYLoc(updatedPosition);
     }
 
-    private void makeRoadManBird() {
-        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("roadmanBird.png")));
+    private void makeRoadManBird(String picture) {
+        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream(picture)));
         ImagePattern imagePattern = new ImagePattern(image);
         this.birdBody.setFill(imagePattern);
     }
@@ -57,6 +57,7 @@ public class Bird implements Flappable {
 
     public void dropDead() {
         TranslateTransition dropDead = new TranslateTransition();
+        this.makeRoadManBird("deadFlappy.png");
         dropDead.setNode(this.birdBody);
         double height = FlapConstants.APP_HEIGHT - this.birdBody.getCenterY() - FlapConstants.CONTROLS_PANE_HEIGHT;
         dropDead.setDuration(Duration.millis(1000));
