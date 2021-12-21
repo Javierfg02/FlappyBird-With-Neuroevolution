@@ -14,12 +14,13 @@ public class FlappyGame {
     private Bird bird;
     private Timeline timeline;
     private ArrayList<Pipe> pipeStorage;
+    private Pipe nearestPipe;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
-        new Pipe(flappyPane, 500, 250);
+        this.nearestPipe = new Pipe(flappyPane, 500, 500);
     }
 
     public void setPlayers(int gameMode) {
@@ -43,6 +44,8 @@ public class FlappyGame {
             this.bird.flap();
             this.bird.gravity();
             this.keepBirdInScreen();
+            this.bird.checkIntersection(this.nearestPipe);
+            this.nearestPipe.scrollPipes();
         }
 
     }

@@ -92,6 +92,7 @@ public class Controls {
             } else if (this.gameMode[FlapConstants.COMPUTER_GAME_MODE].isSelected()) {
                 this.flappyGame.setPlayers(FlapConstants.COMPUTER_GAME_MODE);
             }
+            this.settingsApplied = true;
         }
     }
 

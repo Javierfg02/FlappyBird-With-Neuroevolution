@@ -1,5 +1,6 @@
 package Flappy;
 
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -55,19 +56,19 @@ public class Pipe {
     }
 
     public void scrollPipes() {
-        this.topPipe.setX(this.topPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
+        this.topPipe.setX(this.topPipe.getX() + FlapConstants.SCROLLING_CONSTANT);
         this.bottomPipe.setX(this.bottomPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
     }
 
     /**
      * Method that sets the y locations of the pipes so that there is a constant gap between them.
      */
-    public double getTopPipeY() {
-        return this.topPipe.getY();
+    public Bounds getTopPipeBounds() {
+        return this.topPipe.getBoundsInParent();
     }
 
-    public double getBottomPipeY() {
-        return this.bottomPipe.getY();
+    public Bounds getBottomPipeBounds() {
+        return this.bottomPipe.getBoundsInLocal();
     }
 
     public double getPipeX() {

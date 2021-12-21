@@ -21,7 +21,7 @@ public class FlapConstants {
     public static final int FLAP_VELOCITY = -500;
 
     public static final int PIPE_WIDTH = 100;
-    public static final int PIPE_GAP_HEIGHT = 200;
+    public static final int PIPE_GAP_HEIGHT = 225;
 
     public static final int SCROLLING_CONSTANT = 2;
 }

@@ -1,5 +1,6 @@
 package Flappy;
 
+import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -43,10 +44,9 @@ public class Bird implements Flappable {
      * @return Returns true if there is an intersection with either the top or bottom pipe and false if there is not.
      */
     public boolean checkIntersection(Pipe pipe) {
-        if ((this.birdBody.intersects(pipe.getPipeX(), pipe.getTopPipeY(), FlapConstants.PIPE_WIDTH,
-                FlapConstants.PIPE_LENGTH)) ||
-                this.birdBody.intersects(pipe.getPipeX(), pipe.getBottomPipeY(), FlapConstants.PIPE_WIDTH,
-                        FlapConstants.PIPE_LENGTH)) {
+        if ((this.birdBody.intersects(pipe.getTopPipeBounds())) ||
+                this.birdBody.intersects(pipe.getBottomPipeBounds())) {
+            System.out.println("Intersection!");
             return true;
         } else {
             return false;
@@ -63,6 +63,10 @@ public class Bird implements Flappable {
 
     public void setBirdY(double y) {
         this.birdBody.setCenterY(y);
+    }
+
+    public Bounds getBirdBounds() {
+        return this.birdBody.getBoundsInLocal();
     }
 
     public void setCurrentVelocity(double v) {

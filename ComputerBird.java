@@ -10,5 +10,6 @@ public class ComputerBird extends Bird {
         this.flappyPane = flappyPane;
     }
 
+    @Override
     public void flap() { }
 }
