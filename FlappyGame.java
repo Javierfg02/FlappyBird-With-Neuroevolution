@@ -14,13 +14,15 @@ public class FlappyGame {
     private Bird bird;
     private Timeline timeline;
     private ArrayList<Pipe> pipeStorage;
-    private Pipe nearestPipe;
+    private Pipe firstPipe;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
-        this.nearestPipe = new Pipe(flappyPane, 500, 500);
+        this.firstPipe = new Pipe(flappyPane, 1500, 500);
+        System.out.println(this.firstPipe);
+        this.pipeStorage.add(this.firstPipe);
     }
 
     public void setPlayers(int gameMode) {
@@ -44,8 +46,10 @@ public class FlappyGame {
             this.bird.flap();
             this.bird.gravity();
             this.keepBirdInScreen();
-            this.bird.checkIntersection(this.nearestPipe);
-            this.nearestPipe.scrollPipes();
+            this.bird.checkIntersection(this.nearestPipe());
+            this.scrollPipes();
+            this.createPipes();
+            this.deletePipes();
         }
 
     }
@@ -58,17 +62,49 @@ public class FlappyGame {
         }
     }
 
-    // TODO code method that semi-randomly generates pipes
-    private void createPipes() {
-        Pipe nearestPipe = this.nearestPipe; // TODO change
-        while (this.pipeStorage.size() <= 1) {
+    private void scrollPipes() {
+        for (Pipe pipe : this.pipeStorage) {
+            pipe.scrollPipes();
+        }
+    }
 
+    private void createPipes() {
+        Pipe nearestPipe = nearestPipe(); // TODO change
+        while (this.pipeStorage.size() <= 1) {
+            System.out.println("Nearest Pipe: " + nearestPipe);
+            double yPos = FlapConstants.PIPE_HIGH_BOUND +
+                    ((FlapConstants.PIPE_LOW_BOUND - FlapConstants.PIPE_HIGH_BOUND) * Math.random());
+            System.out.println("yPos: " + yPos);
+
+            double xPos = ((nearestPipe.getPipeX() + FlapConstants.PIPE_X_SPACING));
+            System.out.println("xPos: " + xPos);
+
+            Pipe nextPipe = new Pipe(this.flappyPane, xPos, yPos);
+            this.pipeStorage.add(nextPipe);
         }
     }
 
     // TODO create method to get the nearest pipe
-//    private Pipe nearestPipe() {
-//
-//        }
-//    }
+    private Pipe nearestPipe() {
+        double distanceToBird = FlapConstants.LARGE_NUMBER;
+        Pipe nearestPipe = null;
+        for (Pipe pipe : this.pipeStorage) {
+            double updatedDistanceToBird = pipe.getPipeX() - this.bird.getBirdX();
+            if (updatedDistanceToBird < distanceToBird) {
+                distanceToBird = updatedDistanceToBird;
+                nearestPipe = pipe;
+            }
+        }
+        return nearestPipe;
+    }
+
+    private void deletePipes() {
+        for (int i = 0; i < this.pipeStorage.size(); i++) {
+            Pipe pipe = this.pipeStorage.get(i);
+            if (pipe.getPipeX() < -1 * FlapConstants.PIPE_WIDTH) {
+                pipe.removeFromPane();
+                this.pipeStorage.remove(pipe);
+            }
+        }
+    }
 }

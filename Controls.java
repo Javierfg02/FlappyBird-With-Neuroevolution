@@ -97,6 +97,5 @@ public class Controls {
     }
 
     private void resetHandler(ActionEvent e) {
-        this.settingsApplied = true;
     }
 }

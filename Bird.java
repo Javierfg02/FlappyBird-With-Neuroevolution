@@ -1,6 +1,5 @@
 package Flappy;
 
-import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
@@ -12,7 +11,7 @@ public class Bird implements Flappable {
     private double currentVelocity;
 
     public Bird(Pane flappyPane) {
-        this.birdBody = new Circle(FlapConstants.BIRD_RADIUS,
+        this.birdBody = new Circle(FlapConstants.BIRD_STARTING_X,
                 0, FlapConstants.BIRD_RADIUS);
         this.currentVelocity = 0;
         this.makeRoadManBird();
@@ -63,6 +62,10 @@ public class Bird implements Flappable {
 
     public void setBirdY(double y) {
         this.birdBody.setCenterY(y);
+    }
+
+    public double getBirdX() {
+        return this.birdBody.getCenterX();
     }
 
     public void setCurrentVelocity(double v) {

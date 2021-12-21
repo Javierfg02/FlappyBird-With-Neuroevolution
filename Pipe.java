@@ -60,11 +60,15 @@ public class Pipe {
         this.bottomPipe.setX(this.bottomPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
     }
 
+    public void removeFromPane() {
+        this.flappyPane.getChildren().removeAll(this.topPipe, this.bottomPipe);
+    }
+
     /**
      * Method that sets the y locations of the pipes so that there is a constant gap between them.
      */
     public Bounds getTopPipeBounds() {
-        return this.topPipe.getBoundsInParent();
+        return this.topPipe.getBoundsInParent(); // this accounts for the rotation of the rectangle
     }
 
     public Bounds getBottomPipeBounds() {
