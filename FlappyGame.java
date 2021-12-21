@@ -51,7 +51,6 @@ public class FlappyGame {
             this.createPipes();
             this.deletePipes();
         }
-
     }
 
     // TODO shouldn't stay on the ground, it should die.
@@ -71,13 +70,10 @@ public class FlappyGame {
     private void createPipes() {
         Pipe nearestPipe = nearestPipe(); // TODO change
         while (this.pipeStorage.size() <= 1) {
-            System.out.println("Nearest Pipe: " + nearestPipe);
             double yPos = FlapConstants.PIPE_HIGH_BOUND +
                     ((FlapConstants.PIPE_LOW_BOUND - FlapConstants.PIPE_HIGH_BOUND) * Math.random());
-            System.out.println("yPos: " + yPos);
 
             double xPos = ((nearestPipe.getPipeX() + FlapConstants.PIPE_X_SPACING));
-            System.out.println("xPos: " + xPos);
 
             Pipe nextPipe = new Pipe(this.flappyPane, xPos, yPos);
             this.pipeStorage.add(nextPipe);
