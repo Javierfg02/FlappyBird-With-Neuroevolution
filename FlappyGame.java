@@ -69,14 +69,13 @@ public class FlappyGame {
         this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
         this.scoreLabel.setLayoutY(75);
         this.flappyPane.getChildren().add(this.scoreLabel);
-        this.scoreLabel.toFront();
     }
 
     // TODO shouldn't stay on the ground, it should die.
     private void keepBirdInScreen() {
-        if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT)) {
+        if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2))) {
             this.bird.setCurrentVelocity(0);
-            this.bird.setBirdY(FlapConstants.FLAPPY_PANE_HEIGHT);
+            this.bird.setBirdY((FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2)));
         }
     }
 
@@ -137,6 +136,7 @@ public class FlappyGame {
                 (this.bird.getBirdX() < (nearestPipe.getPipeX() + 2))) {
             this.score++;
             this.scoreLabel.setText(String.valueOf(this.score));
+            this.scoreLabel.toFront();
         }
     }
 

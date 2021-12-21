@@ -24,7 +24,7 @@ public class Pipe {
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
         // set the image for both pipes
-//        this.weedPipe(); // TODO fix :(
+        this.weedPipe(); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
@@ -56,6 +56,7 @@ public class Pipe {
     }
 
     public void scrollPipes() {
+        // must have opposite signs because the top pipe is rotated
         this.topPipe.setX(this.topPipe.getX() + FlapConstants.SCROLLING_CONSTANT);
         this.bottomPipe.setX(this.bottomPipe.getX() - FlapConstants.SCROLLING_CONSTANT);
     }
@@ -72,7 +73,7 @@ public class Pipe {
     }
 
     public Bounds getBottomPipeBounds() {
-        return this.bottomPipe.getBoundsInLocal();
+        return this.bottomPipe.getBoundsInLocal(); // this does not account for rotation of the rectangle
     }
 
     public double getPipeX() {

@@ -6,7 +6,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
 import java.util.Objects;
 
 public class Bird implements Flappable {
@@ -48,7 +47,6 @@ public class Bird implements Flappable {
     public boolean checkIntersection(Pipe pipe) {
         if ((this.birdBody.intersects(pipe.getTopPipeBounds())) ||
                 this.birdBody.intersects(pipe.getBottomPipeBounds())) {
-            System.out.println("Intersection!");
             return true;
         } else {
             return false;
@@ -59,7 +57,8 @@ public class Bird implements Flappable {
         TranslateTransition dropDead = new TranslateTransition();
         this.makeRoadManBird("deadFlappy.png");
         dropDead.setNode(this.birdBody);
-        double height = FlapConstants.APP_HEIGHT - this.birdBody.getCenterY() - FlapConstants.CONTROLS_PANE_HEIGHT;
+        double height = FlapConstants.APP_HEIGHT - this.birdBody.getCenterY() - FlapConstants.CONTROLS_PANE_HEIGHT -
+                FlapConstants.BIRD_RADIUS / 2;
         dropDead.setDuration(Duration.millis(1000));
         dropDead.setCycleCount(1);
         dropDead.setByY(height);
