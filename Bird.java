@@ -65,10 +65,6 @@ public class Bird implements Flappable {
         this.birdBody.setCenterY(y);
     }
 
-    public Bounds getBirdBounds() {
-        return this.birdBody.getBoundsInLocal();
-    }
-
     public void setCurrentVelocity(double v) {
         this.currentVelocity = v;
     }
