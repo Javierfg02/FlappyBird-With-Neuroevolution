@@ -50,7 +50,7 @@ public class FlappyGame {
 
     }
 
-    // TODO shouldn't stay on the ground it should die.
+    // TODO shouldn't stay on the ground, it should die.
     private void keepBirdInScreen() {
         if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT)) {
             this.bird.setCurrentVelocity(0);
@@ -58,13 +58,15 @@ public class FlappyGame {
         }
     }
 
-//    private void createPipes() {
-//        Pipe nearestPipe = this.nearestPipe();
-//        while (this.pipeStorage.size() <= 1) {
-//
-//        }
-//    }
+    // TODO code method that semi-randomly generates pipes
+    private void createPipes() {
+        Pipe nearestPipe = this.nearestPipe; // TODO change
+        while (this.pipeStorage.size() <= 1) {
 
+        }
+    }
+
+    // TODO create method to get the nearest pipe
 //    private Pipe nearestPipe() {
 //
 //        }
