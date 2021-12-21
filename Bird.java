@@ -9,7 +9,7 @@ import javafx.util.Duration;
 import java.util.Objects;
 
 public class Bird implements Flappable {
-    private final Circle birdBody;
+    private Circle birdBody;
     private double currentVelocity;
 
     public Bird(Pane flappyPane) {

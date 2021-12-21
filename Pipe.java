@@ -9,9 +9,9 @@ import javafx.scene.transform.Rotate;
 import java.util.Objects;
 
 public class Pipe {
-    private final Rectangle bottomPipe;
-    private final Rectangle topPipe;
-    private final Pane flappyPane;
+    private Rectangle bottomPipe;
+    private Rectangle topPipe;
+    private Pane flappyPane;
 
     public Pipe(Pane flappyPane, double x, double bottomPipeHeight) {
         this.flappyPane = flappyPane;

@@ -8,7 +8,7 @@ import javafx.scene.layout.Pane;
 import java.util.Objects;
 
 public class PaneOrganizer {
-    private final BorderPane root;
+    private BorderPane root;
 
     public PaneOrganizer() {
         this.root = new BorderPane();
@@ -17,7 +17,7 @@ public class PaneOrganizer {
         flappyPane.setFocusTraversable(true);
         FlappyGame flappyGame = new FlappyGame(flappyPane);
         this.root.setCenter(flappyPane);
-        Controls controls = new Controls(flappyGame);
+        Controls controls = new Controls(flappyGame, flappyPane);
         this.root.setBottom(controls.getPane());
     }
 

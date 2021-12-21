@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.*;
@@ -16,12 +17,16 @@ public class Controls {
     private HBox controlsPane;
     private HBox gameModeMenu;
     private boolean settingsApplied;
+    private Pane flappyPane;
+    private Label scoreLabel;
 
-    public Controls(FlappyGame flappyGame) {
+    public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
+        this.flappyPane = flappyPane;
         this.setUpPane();
         this.setupMenu();
         this.setUpButtons();
+        this.createScoreLabel();
         this.settingsApplied = false;
     }
 
@@ -87,6 +92,16 @@ public class Controls {
         this.gameModeMenu.getChildren().addAll(applySettings, reset, quit);
     }
 
+    private void createScoreLabel() {
+        this.scoreLabel = new Label("0");
+        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
+        this.scoreLabel.setTextFill(Color.BLACK);
+        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
+        this.scoreLabel.setLayoutY(75);
+        this.flappyPane.getChildren().add(this.scoreLabel);
+        this.flappyGame.setScoreLabel(this.scoreLabel);
+    }
+
     private void applySettings(ActionEvent e) {
         if (!this.settingsApplied) {
             if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
@@ -99,5 +114,9 @@ public class Controls {
     }
 
     private void resetHandler(ActionEvent e) {
+        this.settingsApplied = false;
+        this.flappyPane.getChildren().clear();
+        this.flappyGame = new FlappyGame(this.flappyPane);
+        this.createScoreLabel();
     }
 }

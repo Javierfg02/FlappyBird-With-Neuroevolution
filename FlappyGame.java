@@ -15,10 +15,10 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class FlappyGame {
-    private final Pane flappyPane;
+    private Pane flappyPane;
     private Bird bird;
     private Timeline timeline;
-    private final ArrayList<Pipe> pipeStorage;
+    private ArrayList<Pipe> pipeStorage;
     private int score;
     private Label scoreLabel;
 
@@ -27,7 +27,7 @@ public class FlappyGame {
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
         this.createFirstPipe();
-        this.createScoreLabel();
+//        this.createScoreLabel();
         this.score = 0;
     }
 
@@ -55,20 +55,13 @@ public class FlappyGame {
             if (this.bird.checkIntersection(this.nearestPipe())) {
                 this.gameOver();
             }
-            this.updateScore();
+            if (this.scoreLabel != null) {
+                this.updateScore();
+            }
             this.scrollPipes();
             this.createPipes();
             this.deletePipes();
         }
-    }
-
-    private void createScoreLabel() {
-        this.scoreLabel = new Label("0");
-        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
-        this.scoreLabel.setTextFill(Color.BLACK);
-        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
-        this.scoreLabel.setLayoutY(75);
-        this.flappyPane.getChildren().add(this.scoreLabel);
     }
 
     // TODO shouldn't stay on the ground, it should die.
@@ -129,6 +122,15 @@ public class FlappyGame {
         }
     }
 
+//    private void createScoreLabel() {
+//        this.scoreLabel = new Label("0");
+//        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
+//        this.scoreLabel.setTextFill(Color.BLACK);
+//        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
+//        this.scoreLabel.setLayoutY(75);
+//        this.flappyPane.getChildren().add(this.scoreLabel);
+//    }
+
     // TODO if you can find a way to update the score that is not so dodgy then feel free to replace this. But, this method works.
     private void updateScore() {
         Pipe nearestPipe = this.nearestPipe();
@@ -166,6 +168,10 @@ public class FlappyGame {
 
     private void deadAnimation() {
         this.bird.dropDead();
+    }
+
+    public void setScoreLabel(Label scoreLabel) {
+        this.scoreLabel = scoreLabel;
     }
 }
 
