@@ -1,6 +1,5 @@
 package Flappy;
 
-import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;

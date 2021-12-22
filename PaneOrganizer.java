@@ -1,6 +1,5 @@
 package Flappy;
 
-import javafx.animation.ParallelTransition;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
