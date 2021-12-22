@@ -21,7 +21,10 @@ public class FlappyGame {
     private Timeline timeline;
     private ArrayList<Pipe> pipeStorage;
     private int score;
+    private int highScore;
     private Label scoreLabel;
+    private Label highScoreLabel;
+    private ParallelTransition backgroundController;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
@@ -29,6 +32,7 @@ public class FlappyGame {
         this.setUpTimeline();
         this.createFirstPipe();
         this.score = 0;
+        System.out.println(this.highScore);
         this.backgroundImage();
     }
 
@@ -53,9 +57,9 @@ public class FlappyGame {
         trans2.setToX(0);
         trans2.setInterpolator(Interpolator.LINEAR);
 
-        ParallelTransition backgroundController = new ParallelTransition(trans1, trans2);
-        backgroundController.setCycleCount(Animation.INDEFINITE);
-        backgroundController.play();
+        this.backgroundController = new ParallelTransition(trans1, trans2);
+        this.backgroundController.setCycleCount(Animation.INDEFINITE);
+        this.backgroundController.play();
     }
 
     public void setPlayers(int gameMode) {
@@ -84,6 +88,9 @@ public class FlappyGame {
             }
             if (this.scoreLabel != null) {
                 this.updateScore();
+            }
+            if (this.highScoreLabel != null) {
+                this.updateHighScore();
             }
             this.scrollPipes();
             this.createPipes();
@@ -159,8 +166,15 @@ public class FlappyGame {
         }
     }
 
+    private void updateHighScore() {
+        if (this.highScore <= this.score) {
+            this.highScore = this.score;
+            this.highScoreLabel.setText("High score: " + this.highScore);
+        }
+    }
+
     private void gameOver() {
-        System.out.println("game over");
+        this.backgroundController.stop();
         this.deadAnimation();
         this.timeline.stop();
         Label label = new Label("Wasted");
@@ -191,5 +205,8 @@ public class FlappyGame {
     public void setScoreLabel(Label scoreLabel) {
         this.scoreLabel = scoreLabel;
     }
-}
 
+    public void setHighScoreLabel(Label highScoreLabel) {
+        this.highScoreLabel = highScoreLabel;
+    }
+}

@@ -19,6 +19,7 @@ public class Controls {
     private boolean settingsApplied;
     private Pane flappyPane;
     private Label scoreLabel;
+    private Label highScoreLabel;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
@@ -26,6 +27,7 @@ public class Controls {
         this.setUpPane();
         this.setupMenu();
         this.setUpButtons();
+        this.createHighScoreLabel();
         this.createScoreLabel();
         this.settingsApplied = false;
     }
@@ -71,12 +73,12 @@ public class Controls {
         this.gameModeMenu.getChildren().add(manual);
         this.gameModeMenu.getChildren().add(computer);
 
-        this.controlsPane.getChildren().add(gameModeMenu);
+        this.controlsPane.getChildren().add(this.gameModeMenu);
     }
 
     private void setUpButtons() {
         Button applySettings = new Button("Play");
-        applySettings.setOnAction((ActionEvent e) -> this.applySettings(e));
+        applySettings.setOnAction((ActionEvent e) -> this.play(e));
         applySettings.setFocusTraversable(false);
 
         Button reset = new Button("Reset");
@@ -90,17 +92,32 @@ public class Controls {
         this.gameModeMenu.getChildren().addAll(applySettings, reset, quit);
     }
 
+    private void createHighScoreLabel() {
+        if (this.highScoreLabel != null) {
+            this.highScoreLabel = new Label(this.highScoreLabel.getText());
+            System.out.println(this.highScoreLabel.getText());
+        } else {
+            this.highScoreLabel = new Label("High score: 0");
+        }
+        this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffd007;");
+        this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 80);
+        this.highScoreLabel.setLayoutY(50);
+        this.flappyGame.setHighScoreLabel(this.highScoreLabel);
+
+        this.flappyPane.getChildren().add(this.highScoreLabel);
+    }
+
     private void createScoreLabel() {
         this.scoreLabel = new Label("0");
         this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
-        this.scoreLabel.setTextFill(Color.BLACK);
-        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
+        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 22);
         this.scoreLabel.setLayoutY(75);
-        this.flappyPane.getChildren().add(this.scoreLabel);
         this.flappyGame.setScoreLabel(this.scoreLabel);
+
+        this.flappyPane.getChildren().addAll(this.scoreLabel);
     }
 
-    private void applySettings(ActionEvent e) {
+    private void play(ActionEvent e) {
         if (!this.settingsApplied) {
             if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
                 this.flappyGame.setPlayers(FlapConstants.MANUAL_GAME_MODE);
@@ -115,6 +132,7 @@ public class Controls {
         this.settingsApplied = false;
         this.flappyPane.getChildren().clear();
         this.flappyGame = new FlappyGame(this.flappyPane);
+        this.createHighScoreLabel();
         this.createScoreLabel();
     }
 }
