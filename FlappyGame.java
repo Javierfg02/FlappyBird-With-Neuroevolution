@@ -32,7 +32,6 @@ public class FlappyGame {
         this.setUpTimeline();
         this.createFirstPipe();
         this.score = 0;
-        System.out.println(this.highScore);
         this.backgroundImage();
     }
 
@@ -167,6 +166,7 @@ public class FlappyGame {
     }
 
     private void updateHighScore() {
+        this.highScoreLabel.toFront();
         if (this.highScore <= this.score) {
             this.highScore = this.score;
             this.highScoreLabel.setText("High score: " + this.highScore);
@@ -208,5 +208,13 @@ public class FlappyGame {
 
     public void setHighScoreLabel(Label highScoreLabel) {
         this.highScoreLabel = highScoreLabel;
+    }
+
+    public void setHighScore(int highScore) {
+        this.highScore = highScore;
+    }
+
+    public int getHighScore() {
+        return this.highScore;
     }
 }

@@ -20,6 +20,7 @@ public class Controls {
     private Pane flappyPane;
     private Label scoreLabel;
     private Label highScoreLabel;
+    private int highScore;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
@@ -30,6 +31,7 @@ public class Controls {
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.settingsApplied = false;
+        this.highScore = 0;
     }
 
     public Pane getPane() {
@@ -93,14 +95,11 @@ public class Controls {
     }
 
     private void createHighScoreLabel() {
-        if (this.highScoreLabel != null) {
-            this.highScoreLabel = new Label(this.highScoreLabel.getText());
-            System.out.println(this.highScoreLabel.getText());
-        } else {
-            this.highScoreLabel = new Label("High score: 0");
-        }
+        this.flappyGame.setHighScore(this.highScore);
+
+        this.highScoreLabel = new Label("High score: " + this.highScore);
         this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffd007;");
-        this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 80);
+        this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 85);
         this.highScoreLabel.setLayoutY(50);
         this.flappyGame.setHighScoreLabel(this.highScoreLabel);
 
@@ -110,7 +109,7 @@ public class Controls {
     private void createScoreLabel() {
         this.scoreLabel = new Label("0");
         this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
-        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 22);
+        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 24);
         this.scoreLabel.setLayoutY(75);
         this.flappyGame.setScoreLabel(this.scoreLabel);
 
@@ -131,6 +130,7 @@ public class Controls {
     private void resetHandler(ActionEvent e) {
         this.settingsApplied = false;
         this.flappyPane.getChildren().clear();
+        this.highScore = this.flappyGame.getHighScore();
         this.flappyGame = new FlappyGame(this.flappyPane);
         this.createHighScoreLabel();
         this.createScoreLabel();
