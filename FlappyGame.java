@@ -1,18 +1,19 @@
 package Flappy;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FlappyGame {
     private Pane flappyPane;
@@ -27,8 +28,34 @@ public class FlappyGame {
         this.pipeStorage = new ArrayList<>();
         this.setUpTimeline();
         this.createFirstPipe();
-//        this.createScoreLabel();
         this.score = 0;
+        this.backgroundImage();
+    }
+
+    private void backgroundImage() {
+        Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream(
+                "background.png")));
+        ImageView background1 = new ImageView(backgroundImage);
+        ImageView background2 = new ImageView(backgroundImage);
+
+        this.flappyPane.getChildren().add(background1);
+        this.flappyPane.getChildren().add(background2);
+        background1.toBack();
+        background2.toBack();
+
+        TranslateTransition trans1 = new TranslateTransition(Duration.seconds(15), background1);
+        trans1.setFromX(0);
+        trans1.setToX(-1 * FlapConstants.BACKGROUND_WIDTH);
+        trans1.setInterpolator(Interpolator.LINEAR);
+
+        TranslateTransition trans2 = new TranslateTransition(Duration.seconds(15), background2);
+        trans2.setFromX(FlapConstants.BACKGROUND_WIDTH);
+        trans2.setToX(0);
+        trans2.setInterpolator(Interpolator.LINEAR);
+
+        ParallelTransition backgroundController = new ParallelTransition(trans1, trans2);
+        backgroundController.setCycleCount(Animation.INDEFINITE);
+        backgroundController.play();
     }
 
     public void setPlayers(int gameMode) {
@@ -64,7 +91,6 @@ public class FlappyGame {
         }
     }
 
-    // TODO shouldn't stay on the ground, it should die.
     private void keepBirdInScreen() {
         if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2))) {
             this.bird.setCurrentVelocity(0);
@@ -122,15 +148,6 @@ public class FlappyGame {
         }
     }
 
-//    private void createScoreLabel() {
-//        this.scoreLabel = new Label("0");
-//        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
-//        this.scoreLabel.setTextFill(Color.BLACK);
-//        this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 18);
-//        this.scoreLabel.setLayoutY(75);
-//        this.flappyPane.getChildren().add(this.scoreLabel);
-//    }
-
     // TODO if you can find a way to update the score that is not so dodgy then feel free to replace this. But, this method works.
     private void updateScore() {
         Pipe nearestPipe = this.nearestPipe();
@@ -143,6 +160,7 @@ public class FlappyGame {
     }
 
     private void gameOver() {
+        System.out.println("game over");
         this.deadAnimation();
         this.timeline.stop();
         Label label = new Label("Wasted");

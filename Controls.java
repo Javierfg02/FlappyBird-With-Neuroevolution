@@ -1,5 +1,6 @@
 package Flappy;
 
+import javafx.animation.ParallelTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -42,8 +43,6 @@ public class Controls {
         this.controlsPane.setSpacing(10);
         this.controlsPane.setPadding(new Insets(10));
         this.controlsPane.setAlignment(Pos.CENTER);
-//        this.controlsPane.setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID,
-//                CornerRadii.EMPTY, new BorderWidths(3))));
         this.controlsPane.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN,
                 CornerRadii.EMPTY, Insets.EMPTY)));
     }
