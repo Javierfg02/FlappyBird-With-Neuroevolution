@@ -5,6 +5,8 @@ public class FlapConstants {
     public static final int APP_WIDTH = 500;
     public static final int APP_HEIGHT = 780;
 
+    public static final int BACKGROUND_WIDTH = 1125;
+
     public static final int LARGE_NUMBER = 10000;
 
     public static final int MANUAL_GAME_MODE = 0;

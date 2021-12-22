@@ -1,6 +1,8 @@
 package Flappy;
 
 import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,17 +31,26 @@ public class PaneOrganizer {
     }
 
     private void backgroundImage() {
-        ImageView backgroundImage = new ImageView(new Image(Objects.requireNonNull(this.getClass().getResourceAsStream(
-                "background.png"))));
-        this.root.getChildren().add(backgroundImage);
-//        this.scrollBackground(backgroundImage);
-    }
+        Image backgroundImage = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream(
+                "background.png")));
+        ImageView background1 = new ImageView(backgroundImage);
+        ImageView background2 = new ImageView(backgroundImage);
 
-//    private void scrollBackground(ImageView backgroundImage) {
-//        TranslateTransition trans1 = new TranslateTransition(Duration.seconds(10), backgroundImage);
-//        trans1.setByX(-400);
-//        trans1.setCycleCount(Animation.INDEFINITE);
-//        trans1.autoReverseProperty();
-//        trans1.play();
-//    }
+        this.root.getChildren().add(background1);
+        this.root.getChildren().add(background2);
+
+        TranslateTransition trans1 = new TranslateTransition(Duration.seconds(5), background1);
+        trans1.setFromX(0);
+        trans1.setToX(-1 * FlapConstants.BACKGROUND_WIDTH);
+        trans1.setInterpolator(Interpolator.LINEAR);
+
+        TranslateTransition trans2 = new TranslateTransition(Duration.seconds(5), background2);
+        trans2.setFromX(FlapConstants.BACKGROUND_WIDTH);
+        trans2.setToX(0);
+        trans2.setInterpolator(Interpolator.LINEAR);
+
+        ParallelTransition backgroundWrapper = new ParallelTransition(trans1, trans2);
+        backgroundWrapper.setCycleCount(Animation.INDEFINITE);
+        backgroundWrapper.play();
+    }
 }
