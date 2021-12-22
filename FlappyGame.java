@@ -81,6 +81,7 @@ public class FlappyGame {
         if (this.bird != null) { // before applying settings the bird is null.
             this.bird.flap();
             this.bird.gravity();
+            this.bird.rotateBird();
             this.keepBirdInScreen();
             if (this.bird.checkIntersection(this.nearestPipe())) {
                 this.gameOver();

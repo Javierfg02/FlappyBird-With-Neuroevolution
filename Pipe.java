@@ -2,6 +2,7 @@ package Flappy;
 
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -24,12 +25,10 @@ public class Pipe {
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
         // set the image for both pipes
-//        this.weedPipe(); // TODO fix :(
+//        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
-        this.topPipe.toBack();
-        this.bottomPipe.toBack();
         this.flappyPane.getChildren().addAll(this.bottomPipe, this.topPipe);
     }
 
@@ -50,11 +49,14 @@ public class Pipe {
     /**
      * Method that sets the weed pipe image for the pipes.
      */
-    private void weedPipe() {
+    private void weedPipe(double x, double topHeight, double bottomHeight) {
         Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("weedPipe.png")));
-        ImagePattern imagePattern = new ImagePattern(image);
-        this.bottomPipe.setFill(imagePattern);
-        this.topPipe.setFill(imagePattern);
+        ImagePattern imagePatternBottomPipe = new ImagePattern(image, x, bottomHeight, FlapConstants.PIPE_WIDTH,
+                FlapConstants.PIPE_LENGTH, true);
+        ImagePattern imagePatternTopPipe = new ImagePattern(image, x, topHeight, FlapConstants.PIPE_WIDTH,
+                FlapConstants.PIPE_LENGTH, true);
+        this.bottomPipe.setFill(imagePatternBottomPipe);
+        this.topPipe.setFill(imagePatternTopPipe);
     }
 
     public void scrollPipes() {
