@@ -1,6 +1,5 @@
 package Flappy;
 
-import javafx.animation.RotateTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
@@ -67,7 +66,6 @@ public class Bird implements Flappable {
     }
 
     public void rotateBird() {
-        System.out.println(this.currentVelocity);
         // if the velocity is positive (bird going downwards), then we want the bird to point down.
         if (this.currentVelocity > 0) {
             double normalizedVelocity = this.normalizeVelocity(this.currentVelocity, 0, 1200);

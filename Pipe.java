@@ -2,7 +2,6 @@ package Flappy;
 
 import javafx.geometry.Bounds;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;

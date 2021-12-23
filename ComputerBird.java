@@ -3,11 +3,13 @@ package Flappy;
 import javafx.scene.layout.Pane;
 
 public class ComputerBird extends Bird {
-    private Pane flappyPane;
+    /**
+     * Should contain an arrayList of type Birds??
+     * @param flappyPane
+     */
 
     public ComputerBird(Pane flappyPane) {
         super(flappyPane);
-        this.flappyPane = flappyPane;
     }
 
     @Override
