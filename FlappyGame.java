@@ -25,6 +25,9 @@ public class FlappyGame {
     private Label scoreLabel;
     private Label highScoreLabel;
     private ParallelTransition backgroundController;
+    private ArrayList<ComputerBird> smartBird;
+    private double fitness;
+    private double xDistanceToPipe;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
@@ -78,7 +81,11 @@ public class FlappyGame {
     }
 
     private void updateTimeline() {
-        if (this.bird != null) { // before applying settings the bird is null.
+        if (this.bird != null) { // before clicking play the bird is null.
+            this.fitness++;
+            this.bird.setFitness(this.fitness);
+            this.updateInputNodes();
+            this.bird.setXDistanceToPipe(this.xDistanceToPipe);
             this.bird.flap();
             this.bird.gravity();
             this.bird.rotateBird();
@@ -201,6 +208,10 @@ public class FlappyGame {
 
     private void deadAnimation() {
         this.bird.dropDead();
+    }
+
+    private void updateInputNodes() {
+        this.xDistanceToPipe = this.nearestPipe().getPipeX() - this.bird.getBirdX();
     }
 
     public void setScoreLabel(Label scoreLabel) {

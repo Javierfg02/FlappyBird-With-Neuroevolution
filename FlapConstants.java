@@ -34,4 +34,6 @@ public class FlapConstants {
     public static final int PIPE_X_SPACING = 500;
 
     public static final int SCROLLING_CONSTANT = 3;
+
+    public static final int POPULATION = 50; 
 }

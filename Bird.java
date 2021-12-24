@@ -11,6 +11,8 @@ import java.util.Objects;
 public class Bird implements Flappable {
     private Circle birdBody;
     private double currentVelocity;
+    private double fitness;
+    private double xDistanceToPipe;
 
     public Bird(Pane flappyPane) {
         this.birdBody = new Circle((FlapConstants.APP_WIDTH / 2) - 50,
@@ -104,5 +106,21 @@ public class Bird implements Flappable {
 
     public void setCurrentVelocity(double v) {
         this.currentVelocity = v;
+    }
+
+    public void setFitness(double fitness) {
+        this.fitness = fitness;
+    }
+
+    public double getFitness() {
+        return this.fitness;
+    }
+
+    public void setXDistanceToPipe(double xDistanceToPipe) {
+        this.xDistanceToPipe = xDistanceToPipe;
+    }
+
+    public double getXDistanceToPipe() {
+        return xDistanceToPipe;
     }
 }
