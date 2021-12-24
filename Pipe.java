@@ -12,6 +12,7 @@ public class Pipe {
     private Rectangle bottomPipe;
     private Rectangle topPipe;
     private Pane flappyPane;
+    private double gapMidpoint;
 
     public Pipe(Pane flappyPane, double x, double bottomPipeHeight) {
         this.flappyPane = flappyPane;
@@ -22,6 +23,8 @@ public class Pipe {
         double topPipeHeight = bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
 
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
+
+        this.gapMidpoint = bottomPipeHeight + (FlapConstants.PIPE_GAP_HEIGHT / 2);
 
         // set the image for both pipes
 //        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
@@ -81,5 +84,9 @@ public class Pipe {
 
     public double getPipeX() {
         return this.bottomPipe.getX();
+    }
+
+    public double getGapMidpoint() {
+        return this.gapMidpoint;
     }
 }

@@ -26,7 +26,7 @@ public class Bird implements Flappable {
      * No need to define method here
      */
     @Override
-    public void flap() { }
+    public void flap(double xDistanceToPipe, double yDistanceToPipe) { }
 
     public void gravity() {
         double updatedVelocity = this.currentVelocity + (FlapConstants.DURATION * FlapConstants.GRAVITY);
@@ -114,13 +114,5 @@ public class Bird implements Flappable {
 
     public double getFitness() {
         return this.fitness;
-    }
-
-    public void setXDistanceToPipe(double xDistanceToPipe) {
-        this.xDistanceToPipe = xDistanceToPipe;
-    }
-
-    public double getXDistanceToPipe() {
-        return xDistanceToPipe;
     }
 }

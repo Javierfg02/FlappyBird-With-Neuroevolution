@@ -58,7 +58,7 @@ public class Matrix {
      * @param x an array which we want to convert into a matrix
      * @return A matrix form of the array
      */
-    public Matrix fromArray(double[] x) {
+    public static Matrix fromArray(double[] x) {
         Matrix temp = new Matrix(x.length, 1);
         for (int i = 0; i < x.length; i++) {
             temp.data[i][0] = x[i];
@@ -71,13 +71,17 @@ public class Matrix {
      * @return an Array
      */
     public List<Double> toArray() {
-        List<Double> temp= new ArrayList<Double>();
+        List<Double> temp = new ArrayList<Double>();
 
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                temp.add(data[i][j]);
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                temp.add(this.data[i][j]);
             }
         }
         return temp;
+    }
+
+    public double[][] getData() {
+        return this.data;
     }
 }

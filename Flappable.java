@@ -5,5 +5,5 @@ package Flappy;
  */
 public interface Flappable {
 
-    void flap();
+    void flap(double xDistanceToPipe, double yDistanceToPipe);
 }

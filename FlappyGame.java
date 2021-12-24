@@ -28,6 +28,7 @@ public class FlappyGame {
     private ArrayList<ComputerBird> smartBird;
     private double fitness;
     private double xDistanceToPipe;
+    private double yDistanceToPipe;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
@@ -85,8 +86,7 @@ public class FlappyGame {
             this.fitness++;
             this.bird.setFitness(this.fitness);
             this.updateInputNodes();
-            this.bird.setXDistanceToPipe(this.xDistanceToPipe);
-            this.bird.flap();
+            this.bird.flap(this.xDistanceToPipe, this.yDistanceToPipe);
             this.bird.gravity();
             this.bird.rotateBird();
             this.keepBirdInScreen();
@@ -211,7 +211,8 @@ public class FlappyGame {
     }
 
     private void updateInputNodes() {
-        this.xDistanceToPipe = this.nearestPipe().getPipeX() - this.bird.getBirdX();
+        this.xDistanceToPipe = this.nearestPipe().getPipeX() - this.bird.getBirdX(); // always positive anyway
+        this.yDistanceToPipe = Math.abs(this.nearestPipe().getGapMidpoint() - this.bird.getBirdY());
     }
 
     public void setScoreLabel(Label scoreLabel) {
