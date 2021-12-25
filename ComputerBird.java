@@ -2,43 +2,45 @@ package Flappy;
 
 import javafx.scene.layout.Pane;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ComputerBird extends Bird {
     private Matrix syn0; // holds the weights between the input layer and the hidden layer
     private Matrix syn1; // holds the weights between the hidden layer and the output layer
     private double[] inputNodes;
-    private double[] outputNodes; // TODO may not need
+    private int outputNode; // TODO may not need
 
     public ComputerBird(Pane flappyPane) {
         super(flappyPane);
-        this.inputNodes = new double[1]; // TODO change to size 2 later
-        this.outputNodes = new double[1];
-        this.syn0 = new Matrix(1, 0); // start by creating a (1,1,1) neural network for simplicity
-        this.syn1 = new Matrix(1, 0);
+        this.inputNodes = new double[1];
+        this.outputNode = 1;
+        this.syn0 = new Matrix(1, 1);
+        this.syn1 = new Matrix(1, 1);
         this.syn0.randomizeWeights();
-        System.out.println(this.syn0.getData());
         this.syn1.randomizeWeights();
     }
 
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = xDistanceToPipe;
-        System.out.println("input node: " + this.inputNodes[0]);
-        this.forwardPropagation(this.inputNodes);
+//        this.inputNodes[1] = yDistanceToPipe; // TODO second input node for more complex network
+//        System.out.println(this.forwardPropagation(this.inputNodes));
+        if  (this.forwardPropagation(this.inputNodes) > 0.5) {
+            this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
+        }
     }
 
-    public List<Double> forwardPropagation(double[] inputNodes) {
+    public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
-        Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix);
+        Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix); // TODO something wrong with the dotproduct
         hidden.sigmoid(); // applies activation function to the hidden layer
 
         Matrix output = Matrix.dotProduct(hidden, this.syn1);
-        System.out.println(output);
-        List<Double> outputNode = output.toArray();
-        System.out.println("outputNode List size: " + outputNode.size());
-        return outputNode;
+//        System.out.println(output);
+        output.sigmoid();
+        ArrayList<Double> outputNode = output.toArray();
+//        System.out.println("outputNode List size: " + outputNode.size());
+        return outputNode.get(0);
     }
 
 }

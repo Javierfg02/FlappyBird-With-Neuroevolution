@@ -1,14 +1,13 @@
 package Flappy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Matrix {
     private int rows;
     private int cols;
     private double[][] data;
 
-    public Matrix(int rows,int cols) {
+    public Matrix(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
         this.data = new double[rows][cols];
@@ -17,7 +16,9 @@ public class Matrix {
     public void randomizeWeights() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.data[i][j] = (Math.random() * 2) - 1; // produces a random number between -1 and 1
+                double rand = Math.random() * 2 - 1;
+                System.out.println("rand: " + rand);
+                this.data[i][j] = rand; // produces a random number between -1 and 1
             }
         }
     }
@@ -33,8 +34,8 @@ public class Matrix {
         for (int i = 0; i < temp.rows; i++) {
             for (int j = 0; j < temp.cols; j++) {
                 double sum = 0;
-                for (int k = 0; k < a.cols; k++) {
-                    sum += a.data[i][k] * b.data[k][j];
+                for (int k = 0; k < a.rows; k++) {
+                    sum += a.data[i][j] * b.data[i][j];
                 }
                 temp.data[i][j] = sum;
             }
@@ -67,11 +68,12 @@ public class Matrix {
     }
 
     /**
-     * Converts the matrix into an Array
-     * @return an Array
+     * Converts the matrix into an ArrayList.
+     * @return an ArrayList containing the data of the 2D array
      */
-    public List<Double> toArray() {
-        List<Double> temp = new ArrayList<Double>();
+    public ArrayList<Double> toArray() {
+        // Needs to be an ArrayList because we do not know the rows or cols of the Matrix
+        ArrayList<Double> temp = new ArrayList<Double>();
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -81,7 +83,16 @@ public class Matrix {
         return temp;
     }
 
-    public double[][] getData() {
-        return this.data;
+    public double getData(int i, int j) {
+        return this.data[i][j];
     }
+
+    public int getRows() {
+        return this.rows;
+    }
+
+    public int getCols() {
+        return this.cols;
+    }
+
 }
