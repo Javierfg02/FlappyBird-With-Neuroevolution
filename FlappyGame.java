@@ -33,6 +33,7 @@ public class FlappyGame {
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
+        this.smartBird = new ArrayList<>();
         this.setUpTimeline();
         this.createFirstPipe();
         this.score = 0;

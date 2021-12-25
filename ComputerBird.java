@@ -23,24 +23,21 @@ public class ComputerBird extends Bird {
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = xDistanceToPipe;
-//        this.inputNodes[1] = yDistanceToPipe; // TODO second input node for more complex network
-//        System.out.println(this.forwardPropagation(this.inputNodes));
-        if  (this.forwardPropagation(this.inputNodes) > 0.5) {
+        this.inputNodes[1] = yDistanceToPipe;
+        if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
     }
 
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
-        Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix); // TODO something wrong with the dotproduct
-        hidden.sigmoid(); // applies activation function to the hidden layer
+        Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix);
+//        hidden.sigmoid(); // applies activation function to the hidden layer
 
         Matrix output = Matrix.dotProduct(hidden, this.syn1);
-//        System.out.println(output);
-        output.sigmoid();
+//        output.sigmoid();
         ArrayList<Double> outputNode = output.toArray();
-//        System.out.println("outputNode List size: " + outputNode.size());
-        return outputNode.get(0);
+        System.out.println(outputNode.get(0));
+        return outputNode.get(0); // only have one output node anyway
     }
-
 }

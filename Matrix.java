@@ -44,12 +44,45 @@ public class Matrix {
     }
 
     /**
-     * Method that applies the sigmoid function to the matrix
+     * Alternative activation function
+     */
+    public void softplus() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.rows; j++) {
+                double data = this.data[i][j];
+                this.data[i][j] = Math.log(1 + Math.exp(data));
+            }
+        }
+    }
+
+    /**
+     * Alternative activation function
+     */
+    public void hyperbolicTangent() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.rows; j++) {
+                double data = this.data[i][j];
+                this.data[i][j] = ((Math.exp(data) - Math.exp(-data))/(Math.exp(data) + Math.exp(-data)));
+            }
+        }
+    }
+
+    /**
+     * Method that applies the sigmoid function to the matrix. It is commonly used as the activation function
      */
     public void sigmoid() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
-                this.data[i][j] = 1/(1 + Math.exp(-this.data[i][j]));
+                this.data[i][j] = 1/(1 + Math.exp(-1 * this.data[i][j]));
+            }
+        }
+    }
+
+    public void swish() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                double x = this.data[i][j];
+                this.data[i][j] = x/(1 - Math.exp(-1 * x));
             }
         }
     }
