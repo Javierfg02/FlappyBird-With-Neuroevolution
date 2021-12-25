@@ -78,6 +78,9 @@ public class Matrix {
         }
     }
 
+    /**
+     * Alternate activation function
+     */
     public void swish() {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -117,15 +120,6 @@ public class Matrix {
     }
 
     public double getData(int i, int j) {
-        return this.data[i][j];
+         return this.data[i][j];
     }
-
-    public int getRows() {
-        return this.rows;
-    }
-
-    public int getCols() {
-        return this.cols;
-    }
-
 }
