@@ -12,9 +12,9 @@ public class ComputerBird extends Bird {
 
     public ComputerBird(Pane flappyPane) {
         super(flappyPane);
-        this.inputNodes = new double[1];
+        this.inputNodes = new double[2];
         this.outputNode = 1;
-        this.syn0 = new Matrix(1, 1);
+        this.syn0 = new Matrix(1, 2);
         this.syn1 = new Matrix(1, 1);
         this.syn0.randomizeWeights();
         this.syn1.randomizeWeights();
@@ -23,8 +23,9 @@ public class ComputerBird extends Bird {
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = this.normalizeInputs(xDistanceToPipe, 0, FlapConstants.PIPE_X_SPACING);
-        this.inputNodes[1] = yDistanceToPipe;
-        if (this.forwardPropagation(this.inputNodes) > 0.45) {
+        this.inputNodes[1] = this.normalizeInputs(yDistanceToPipe, 0,
+                FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT);
+        if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
     }
@@ -35,14 +36,13 @@ public class ComputerBird extends Bird {
 
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
-        System.out.println(inputMatrix.getData(0,0));
         Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix);
         hidden.sigmoid(); // applies activation function to the hidden layer
 
-        Matrix output = Matrix.dotProduct(hidden, this.syn1);
+        Matrix output = Matrix.dotProduct(this.syn1, hidden);
         output.sigmoid();
         ArrayList<Double> outputNode = output.toArray();
-        System.out.println(outputNode.get(0));
+        System.out.println("output: " + outputNode.get(0));
         return outputNode.get(0); // only have one output node anyway
     }
 }
