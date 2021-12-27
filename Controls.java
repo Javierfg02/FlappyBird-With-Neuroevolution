@@ -80,11 +80,11 @@ public class Controls {
 
     private void setUpButtons() {
         Button applySettings = new Button("Play");
-        applySettings.setOnAction((ActionEvent e) -> this.play(e));
+        applySettings.setOnAction((ActionEvent e) -> this.play());
         applySettings.setFocusTraversable(false);
 
         Button reset = new Button("Reset");
-        reset.setOnAction((ActionEvent e) -> this.resetHandler(e));
+        reset.setOnAction((ActionEvent e) -> this.resetHandler());
         reset.setFocusTraversable(false);
 
         Button quit = new Button("Quit");
@@ -98,7 +98,7 @@ public class Controls {
         this.flappyGame.setHighScore(this.highScore);
 
         this.highScoreLabel = new Label("High score: " + this.highScore);
-        this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffd007;");
+        this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffe571;");
         this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 85);
         this.highScoreLabel.setLayoutY(50);
         this.flappyGame.setHighScoreLabel(this.highScoreLabel);
@@ -108,7 +108,7 @@ public class Controls {
 
     private void createScoreLabel() {
         this.scoreLabel = new Label("0");
-        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffd007;");
+        this.scoreLabel.setStyle("-fx-font: italic bold 75px arial, serif;-fx-text-fill: #ffe571;");
         this.scoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 24);
         this.scoreLabel.setLayoutY(75);
         this.flappyGame.setScoreLabel(this.scoreLabel);
@@ -116,7 +116,7 @@ public class Controls {
         this.flappyPane.getChildren().addAll(this.scoreLabel);
     }
 
-    private void play(ActionEvent e) {
+    private void play() {
         if (!this.settingsApplied) {
             if (this.gameMode[FlapConstants.MANUAL_GAME_MODE].isSelected()) {
                 this.flappyGame.setPlayers(FlapConstants.MANUAL_GAME_MODE);
@@ -127,12 +127,14 @@ public class Controls {
         }
     }
 
-    private void resetHandler(ActionEvent e) {
+    public void resetHandler() {
         this.settingsApplied = false;
         this.flappyPane.getChildren().clear();
         this.highScore = this.flappyGame.getHighScore();
         this.flappyGame = new FlappyGame(this.flappyPane);
+        this.flappyGame.setControls(this);
         this.createHighScoreLabel();
         this.createScoreLabel();
+        this.play();
     }
 }

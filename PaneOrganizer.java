@@ -14,6 +14,7 @@ public class PaneOrganizer {
         this.root.setCenter(flappyPane);
         Controls controls = new Controls(flappyGame, flappyPane);
         this.root.setBottom(controls.getPane());
+        flappyGame.setControls(controls);
     }
 
     public Pane getRoot() {

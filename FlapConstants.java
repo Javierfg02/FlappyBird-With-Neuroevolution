@@ -35,5 +35,10 @@ public class FlapConstants {
 
     public static final int SCROLLING_CONSTANT = 3;
 
-    public static final int POPULATION = 50; 
+    public static final int POPULATION = 50;
+
+    public static final int IO_FITNESS = 0;
+    public static final int IO_INPUT_WEIGHT_ONE = 1;
+    public static final int IO_INPUT_WEIGHT_2 = 2;
+    public static final int IO_OUTPUT_WEIGHT = 3;
 }

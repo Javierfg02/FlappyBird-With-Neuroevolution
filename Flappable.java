@@ -6,4 +6,6 @@ package Flappy;
 public interface Flappable {
 
     void flap(double xDistanceToPipe, double yDistanceToPipe);
+
+    boolean isBirdManual();
 }

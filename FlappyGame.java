@@ -3,6 +3,7 @@ package Flappy;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -25,15 +26,16 @@ public class FlappyGame {
     private Label scoreLabel;
     private Label highScoreLabel;
     private ParallelTransition backgroundController;
-    private ArrayList<ComputerBird> smartBird;
+    private ArrayList<ComputerBird> computerBirdStorage;
     private double fitness;
     private double xDistanceToPipe;
     private double yDistanceToPipe;
+    private Controls controls;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
-        this.smartBird = new ArrayList<>();
+        this.computerBirdStorage = new ArrayList<>();
         this.setUpTimeline();
         this.createFirstPipe();
         this.score = 0;
@@ -69,7 +71,7 @@ public class FlappyGame {
     public void setPlayers(int gameMode) {
         if (gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.bird = new ManualBird(this.flappyPane);
-        } else if (gameMode == FlapConstants.COMPUTER_GAME_MODE) {
+        } else {
             this.bird = new ComputerBird(this.flappyPane);
         }
     }
@@ -107,10 +109,7 @@ public class FlappyGame {
     }
 
     private void keepBirdInScreen() {
-        if (this.bird.getBirdY() > (FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2))) {
-            this.bird.setCurrentVelocity(0);
-            this.bird.setBirdY((FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2)));
-        }
+        this.bird.keepBirdInScreen();
     }
 
     private void scrollPipes() {
@@ -183,9 +182,18 @@ public class FlappyGame {
     }
 
     private void gameOver() {
-        this.backgroundController.stop();
-        this.deadAnimation();
         this.timeline.stop();
+        this.backgroundController.stop();
+        // if the bird is of type manual:
+        if (this.bird.isBirdManual()) {
+            this.manualGameOver();
+        } else {
+            this.computerGameOver();
+        }
+    }
+
+    private void manualGameOver() {
+        this.deadAnimation();
         Label label = new Label("Wasted");
         VBox labelBox = new VBox(label);
         labelBox.setAlignment(Pos.CENTER);
@@ -205,6 +213,17 @@ public class FlappyGame {
         this.flappyPane.setOnKeyPressed(null);
         this.flappyPane.getChildren().add(labelBox);
         labelBox.setFocusTraversable(false);
+    }
+
+    private void computerGameOver() {
+        if (this.controls != null) {
+            System.out.println("game over computer!");
+            this.controls.resetHandler();
+        }
+    }
+
+    void setControls(Controls controls) {
+        this.controls = controls;
     }
 
     private void deadAnimation() {

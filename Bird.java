@@ -12,7 +12,6 @@ public class Bird implements Flappable {
     private Circle birdBody;
     private double currentVelocity;
     private double fitness;
-    private double xDistanceToPipe;
 
     public Bird(Pane flappyPane) {
         this.birdBody = new Circle((FlapConstants.APP_WIDTH / 2) - 50,
@@ -27,6 +26,13 @@ public class Bird implements Flappable {
      */
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) { }
+
+    @Override
+    public boolean isBirdManual() {
+        return false;
+    }
+
+    public void IOFileHandler(double Fitness) { }
 
     public void gravity() {
         double updatedVelocity = this.currentVelocity + (FlapConstants.DURATION * FlapConstants.GRAVITY);
@@ -52,6 +58,13 @@ public class Bird implements Flappable {
             return true;
         } else {
             return false;
+        }
+    }
+
+     public void keepBirdInScreen() {
+        if (this.birdBody.getCenterY() > (FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2))) {
+            this.setCurrentVelocity(0);
+            this.setBirdY((FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2)));
         }
     }
 
