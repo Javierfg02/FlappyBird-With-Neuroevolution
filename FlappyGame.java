@@ -216,10 +216,8 @@ public class FlappyGame {
     }
 
     private void computerGameOver() {
-        if (this.controls != null) {
-            System.out.println("game over computer!");
-            this.controls.resetHandler();
-        }
+        this.bird.IOFileHandler(this.fitness);
+        this.controls.resetHandler();
     }
 
     void setControls(Controls controls) {

@@ -2,7 +2,7 @@ package Flappy;
 
 import javafx.scene.layout.Pane;
 
-import java.io.*; // gives us access to io files
+import java.io.*;
 import java.util.ArrayList;
 
 public class ComputerBird extends Bird {
@@ -11,14 +11,15 @@ public class ComputerBird extends Bird {
     private double[] inputNodes;
     private BufferedWriter bufferedWriter;
     private BufferedReader bufferedReader;
-    private ArrayList<String> readFile;
+    private ArrayList<String> fileLines;
 
     public ComputerBird(Pane flappyPane) {
         super(flappyPane);
-        this.readFile = new ArrayList<>();
+        this.fileLines = new ArrayList<>();
         this.inputNodes = new double[2];
         this.syn0 = new Matrix(1, 2);
         this.syn1 = new Matrix(1, 1);
+
         this.syn0.randomizeWeights();
         this.syn1.randomizeWeights();
     }
@@ -29,30 +30,65 @@ public class ComputerBird extends Bird {
     }
 
     @Override
-    public void IOFileHandler(double Fitness) {
+    public void IOFileHandler(double fitness) {
         // if the file exists
         if (new File("/Users/javier/IdeaProjects/FlappyBird/output.txt").isFile()) {
-
             // Read the file
             try {
                 this.bufferedReader = new BufferedReader(new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
-                // the reader will return null once it gets to a line that does not have any input
-                String line;
-                while ((line = this.bufferedReader.readLine()) != null) {
-                    this.readFile.add(line);
-                    System.out.println(this.readFile.get(0));
+                // if the first line of the file is empty (meaning nothing is written on the file) then write the
+                // bird's fitness and weights
+                if (this.bufferedReader.readLine() == null) {
+                    this.writeFile(true, fitness);
+                    this.bufferedReader.close();
+                } else {
+                    // the reader will return null once it gets to a line that does not have any input
+                    String line;
+                    while ((line = this.bufferedReader.readLine()) != null) {
+                        this.fileLines.add(line);
+                    }
+                    this.writeFile(false, fitness);
+                    this.bufferedReader.close();
                 }
-                this.bufferedReader.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
 
-        // Write the file
+    private void writeFile(boolean isFileNull, double fitness) {
         try {
             this.bufferedWriter = new BufferedWriter(new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
-            this.bufferedWriter.write("File exists");
-            this.bufferedWriter.close();
+            if (isFileNull) {
+                // write the fitness as the first line
+                this.bufferedWriter.write(fitness + "\n");
+
+                // write the input weights as the second and third lines
+                ArrayList<Double> syn0 = this.syn0.toArray();
+                this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_1) + "\n");
+                this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_2) + "\n");
+
+                // write the output weights as the fourth line
+                ArrayList<Double> syn1 = this.syn1.toArray();
+                this.bufferedWriter.write(String.valueOf(syn1.get(FlapConstants.IO_OUTPUT_WEIGHT)));
+
+                // close the file
+                this.bufferedWriter.close();
+            } else {
+                if (fitness >= Double.parseDouble(this.fileLines.get(FlapConstants.IO_FITNESS))) {
+                    this.bufferedWriter.write(fitness + "\n");
+                    System.out.println("Fitness beaten or equaled");
+
+                    ArrayList<Double> syn0 = this.syn0.toArray();
+                    this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_1) + "\n");
+                    this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_2) + "\n");
+
+                    ArrayList<Double> syn1 = this.syn1.toArray();
+                    this.bufferedWriter.write(String.valueOf(syn1.get(FlapConstants.IO_OUTPUT_WEIGHT)));
+
+                    this.bufferedWriter.close();
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
