@@ -21,6 +21,9 @@ public class Controls {
     private Label scoreLabel;
     private Label highScoreLabel;
     private int highScore;
+    private double timelineRate;
+    private int generation;
+    private Label generationLabel;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
@@ -32,6 +35,8 @@ public class Controls {
         this.createScoreLabel();
         this.settingsApplied = false;
         this.highScore = 0;
+        this.timelineRate = 1;
+        this.generation = 0;
     }
 
     public Pane getPane() {
@@ -54,7 +59,7 @@ public class Controls {
         this.gameMode = new RadioButton[2];
 
         this.gameModeMenu = new HBox();
-        this.gameModeMenu.setSpacing(20);
+        this.gameModeMenu.setSpacing(15);
         this.gameModeMenu.setAlignment(Pos.CENTER_RIGHT);
         this.gameModeMenu.setPrefWidth(FlapConstants.APP_WIDTH);
 
@@ -75,6 +80,9 @@ public class Controls {
         this.gameModeMenu.getChildren().add(manual);
         this.gameModeMenu.getChildren().add(computer);
 
+        this.generationLabel = new Label("Generation: " + this.generation);
+        this.gameModeMenu.getChildren().add(this.generationLabel);
+
         this.controlsPane.getChildren().add(this.gameModeMenu);
     }
 
@@ -87,11 +95,15 @@ public class Controls {
         reset.setOnAction((ActionEvent e) -> this.resetHandler());
         reset.setFocusTraversable(false);
 
+        Button rate = new Button("x10");
+        rate.setOnAction((ActionEvent e) -> this.flappyGame.setRate(this.timelineRate = 10));
+        rate.setFocusTraversable(false);
+
         Button quit = new Button("Quit");
         quit.setOnAction((ActionEvent e) -> Platform.exit());
         quit.setFocusTraversable(false);
 
-        this.gameModeMenu.getChildren().addAll(applySettings, reset, quit);
+        this.gameModeMenu.getChildren().addAll(applySettings, reset, rate, quit);
     }
 
     private void createHighScoreLabel() {
@@ -133,6 +145,12 @@ public class Controls {
         this.highScore = this.flappyGame.getHighScore();
         this.flappyGame = new FlappyGame(this.flappyPane);
         this.flappyGame.setControls(this);
+
+        if (this.timelineRate != 1) {
+            this.flappyGame.setRate(this.timelineRate);
+        }
+        this.generation++;
+        this.generationLabel.setText("Generation: " + this.generation);
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.play();

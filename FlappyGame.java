@@ -3,7 +3,6 @@ package Flappy;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
@@ -247,5 +246,10 @@ public class FlappyGame {
 
     public int getHighScore() {
         return this.highScore;
+    }
+
+    public void setRate(double rate) {
+        this.timeline.setRate(rate);
+        this.backgroundController.setRate(rate);
     }
 }
