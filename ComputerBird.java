@@ -24,23 +24,26 @@ public class ComputerBird extends Bird {
     }
 
     private void giveBirdWeights() {
-        // TODO I think this is creating a new file everytime
+        this.file = new File("/Users/javier/IdeaProjects/FlappyBird/output.txt");
         try {
             BufferedReader bufferedReader = new BufferedReader(
                     new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
 
-            if (bufferedReader.readLine() == null) {
+            if (this.file.length() == 0) {
                 // if there are no recorded weights then we want to randomize the weights (starting case)
                 this.syn0.randomizeWeights();
                 this.syn1.randomizeWeights();
-                System.out.println("randomized");
+                System.out.println("randomized weights");
+                bufferedReader.close();
                 // if there are recorded weights then we want to get those weights
             } else {
+                System.out.println("weights inherited");
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     this.beginningFileLines.add(line);
-                    System.out.println("beginning line: " + line);
                 }
+                this.mutateWeights();
+                bufferedReader.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -55,7 +58,8 @@ public class ComputerBird extends Bird {
                     new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
             // if the first line of the file is empty (meaning nothing is written on the file) then write the
             // bird's fitness and weights
-            if (bufferedReader.readLine() == null) {
+            if (this.file.length() == 0) {
+                System.out.println("File is null");
                 this.writeFile(true, fitness);
                 bufferedReader.close();
             } else {
@@ -78,7 +82,6 @@ public class ComputerBird extends Bird {
                     new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
             if (isFileNull) {
                 // write the fitness as the first line
-                bufferedWriter.write("dummy line \n");
                 bufferedWriter.write(fitness + "\n");
 
                 // write the input weights as the second and third lines
@@ -94,9 +97,6 @@ public class ComputerBird extends Bird {
                 bufferedWriter.close();
             } else {
                 if (fitness > Double.parseDouble(this.endFileLines.get(FlapConstants.IO_FITNESS))) {
-                    System.out.println("Fitness: " + this.endFileLines.get(FlapConstants.IO_FITNESS));
-                    this.mutateWeights();
-                    bufferedWriter.write("dummy line \n");
                     bufferedWriter.write(fitness + "\n");
                     System.out.println("Fitness beaten or equaled");
 

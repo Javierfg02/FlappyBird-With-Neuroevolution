@@ -65,6 +65,9 @@ public class Bird implements Flappable {
         if (this.birdBody.getCenterY() > (FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2))) {
             this.setCurrentVelocity(0);
             this.setBirdY((FlapConstants.FLAPPY_PANE_HEIGHT - (FlapConstants.BIRD_RADIUS / 2)));
+        } else if (this.birdBody.getCenterY() < FlapConstants.BIRD_RADIUS / 2 ) {
+            this.setCurrentVelocity(0);
+            this.setBirdY(FlapConstants.BIRD_RADIUS / 2);
         }
     }
 
