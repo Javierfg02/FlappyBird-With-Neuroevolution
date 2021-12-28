@@ -9,19 +9,63 @@ public class ComputerBird extends Bird {
     private Matrix syn0; // holds the weights between the input layer and the hidden layer
     private Matrix syn1; // holds the weights between the hidden layer and the output layer
     private double[] inputNodes;
-    private BufferedWriter bufferedWriter;
-    private BufferedReader bufferedReader;
-    private ArrayList<String> fileLines;
+    private ArrayList<String> beginningFileLines;
+    private ArrayList<String> endFileLines;
 
     public ComputerBird(Pane flappyPane) {
         super(flappyPane);
-        this.fileLines = new ArrayList<>();
+        this.beginningFileLines = new ArrayList<>();
+        this.endFileLines = new ArrayList<>();
         this.inputNodes = new double[2];
         this.syn0 = new Matrix(1, 2);
         this.syn1 = new Matrix(1, 1);
+        this.giveBirdWeights();
+    }
 
-        this.syn0.randomizeWeights();
-        this.syn1.randomizeWeights();
+    private void giveBirdWeights() {
+        if (new File("/Users/javier/IdeaProjects/FlappyBird/output.txt").isFile()) {
+            try {
+                BufferedReader bufferedReader = new BufferedReader(
+                        new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
+
+                if (bufferedReader.readLine() == null) {
+                    // if there are no recorded weights then we want to randomize the weights (starting case)
+                    this.syn0.randomizeWeights();
+                    this.syn1.randomizeWeights();
+                    // if there are recorded weights then we want to get those weights
+                } else {
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        this.beginningFileLines.add(line);
+                        System.out.println(line);
+                    }
+
+                    double mutationFactor = 0.5 + (Math.random() * 1.5);
+
+                    double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
+                    double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(0));
+                    double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(1));
+                    inputWeight1 = inputWeight1 * mutationFactor;
+                    inputWeight2 = inputWeight2 * mutationFactor;
+
+                    syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 2] = inputWeight1;
+                    syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 1] = inputWeight2;
+
+                    this.syn0.setData(syn0Data);
+
+                    double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
+                    double outputWeight = Double.parseDouble(this.beginningFileLines.get(2));
+                    outputWeight = outputWeight + mutationFactor;
+
+                    syn1Data[this.syn1.getRows() - 1][this.syn1.getCols() - 1] = outputWeight;
+
+                    this.syn1.setData(syn1Data);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -35,20 +79,21 @@ public class ComputerBird extends Bird {
         if (new File("/Users/javier/IdeaProjects/FlappyBird/output.txt").isFile()) {
             // Read the file
             try {
-                this.bufferedReader = new BufferedReader(new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
+                BufferedReader bufferedReader = new BufferedReader(
+                        new FileReader("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
                 // if the first line of the file is empty (meaning nothing is written on the file) then write the
                 // bird's fitness and weights
-                if (this.bufferedReader.readLine() == null) {
+                if (bufferedReader.readLine() == null) {
                     this.writeFile(true, fitness);
-                    this.bufferedReader.close();
+                    bufferedReader.close();
                 } else {
                     // the reader will return null once it gets to a line that does not have any input
                     String line;
-                    while ((line = this.bufferedReader.readLine()) != null) {
-                        this.fileLines.add(line);
+                    while ((line = bufferedReader.readLine()) != null) {
+                        this.endFileLines.add(line);
                     }
                     this.writeFile(false, fitness);
-                    this.bufferedReader.close();
+                    bufferedReader.close();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -58,35 +103,36 @@ public class ComputerBird extends Bird {
 
     private void writeFile(boolean isFileNull, double fitness) {
         try {
-            this.bufferedWriter = new BufferedWriter(new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
+            BufferedWriter bufferedWriter = new BufferedWriter(
+                    new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
             if (isFileNull) {
                 // write the fitness as the first line
-                this.bufferedWriter.write(fitness + "\n");
+                bufferedWriter.write(fitness + "\n");
 
                 // write the input weights as the second and third lines
                 ArrayList<Double> syn0 = this.syn0.toArray();
-                this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_1) + "\n");
-                this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_2) + "\n");
+                bufferedWriter.write(syn0.get(0) + "\n");
+                bufferedWriter.write(syn0.get(1) + "\n");
 
                 // write the output weights as the fourth line
                 ArrayList<Double> syn1 = this.syn1.toArray();
-                this.bufferedWriter.write(String.valueOf(syn1.get(FlapConstants.IO_OUTPUT_WEIGHT)));
+                bufferedWriter.write(String.valueOf(syn1.get(0)));
 
                 // close the file
-                this.bufferedWriter.close();
+                bufferedWriter.close();
             } else {
-                if (fitness >= Double.parseDouble(this.fileLines.get(FlapConstants.IO_FITNESS))) {
-                    this.bufferedWriter.write(fitness + "\n");
+                if (fitness >= Double.parseDouble(this.endFileLines.get(FlapConstants.IO_FITNESS))) {
+                    bufferedWriter.write(fitness + "\n");
                     System.out.println("Fitness beaten or equaled");
 
                     ArrayList<Double> syn0 = this.syn0.toArray();
-                    this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_1) + "\n");
-                    this.bufferedWriter.write(syn0.get(FlapConstants.IO_INPUT_WEIGHT_2) + "\n");
+                    bufferedWriter.write(syn0.get(0) + "\n");
+                    bufferedWriter.write(syn0.get(1) + "\n");
 
                     ArrayList<Double> syn1 = this.syn1.toArray();
-                    this.bufferedWriter.write(String.valueOf(syn1.get(FlapConstants.IO_OUTPUT_WEIGHT)));
+                    bufferedWriter.write(String.valueOf(syn1.get(0)));
 
-                    this.bufferedWriter.close();
+                    bufferedWriter.close();
                 }
             }
         } catch (IOException e) {
@@ -120,6 +166,4 @@ public class ComputerBird extends Bird {
 
         return outputNode.get(0); // only have one output node anyway
     }
-
-
 }

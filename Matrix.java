@@ -17,7 +17,7 @@ public class Matrix {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 double rand = Math.random() * 2 - 1;
-                System.out.println("rand: " + rand);
+                System.out.println("rand: " + rand + this);
                 this.data[i][j] = rand; // produces a random number between -1 and 1
             }
         }
@@ -119,7 +119,16 @@ public class Matrix {
         return temp;
     }
 
-    public double getData(int i, int j) {
-         return this.data[i][j];
+    public void setData(double[][] data) {
+        this.data = data;
     }
+
+    public int getRows() {
+        return this.rows;
+    }
+
+    public int getCols() {
+        return this.cols;
+    }
+
 }
