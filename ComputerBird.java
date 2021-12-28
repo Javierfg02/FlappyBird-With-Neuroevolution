@@ -108,6 +108,8 @@ public class ComputerBird extends Bird {
                     bufferedWriter.write(String.valueOf(syn1.get(0)));
 
                     bufferedWriter.close();
+                } else {
+                    this.writeFile(true, fitness);
                 }
             }
         } catch (IOException e) {
@@ -119,16 +121,15 @@ public class ComputerBird extends Bird {
         double mutationFactor;
         double rand = Math.random();
         if (rand > 0.5) {
-            mutationFactor = (rand * 2 - 1) * 0.25;
-        } else if (rand > 0.1) {
-            mutationFactor = (rand * 2 - 1) * -0.25;
+            mutationFactor = (Math.random() * 2 - 1) * 0.25;
+            System.out.println("Mutation factor: " + mutationFactor);
         } else {
             mutationFactor = 1;
         }
 
         double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
-        double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(0));
-        double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(1));
+        double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
+        double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
         if (inputWeight1 + mutationFactor < 1 && inputWeight1 + mutationFactor > -1) {
             inputWeight1 = inputWeight1 + mutationFactor;
         }
@@ -142,7 +143,7 @@ public class ComputerBird extends Bird {
         this.syn0.setData(syn0Data);
 
         double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
-        double outputWeight = Double.parseDouble(this.beginningFileLines.get(2));
+        double outputWeight = Double.parseDouble(this.beginningFileLines.get(3));
         if (outputWeight + mutationFactor < 1 && outputWeight + mutationFactor > -1) {
             outputWeight = outputWeight + mutationFactor;
         }
