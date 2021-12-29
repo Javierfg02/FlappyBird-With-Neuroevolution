@@ -78,9 +78,9 @@ public class ComputerBird extends Bird {
 
     private void writeFile(boolean isFileNull, double fitness) {
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(
-                    new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
             if (isFileNull) {
+                BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
                 // write the fitness as the first line
                 bufferedWriter.write(fitness + "\n");
 
@@ -97,6 +97,8 @@ public class ComputerBird extends Bird {
                 bufferedWriter.close();
             } else {
                 if (fitness > Double.parseDouble(this.endFileLines.get(FlapConstants.IO_FITNESS))) {
+                    BufferedWriter bufferedWriter = new BufferedWriter(
+                            new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
                     bufferedWriter.write(fitness + "\n");
                     System.out.println("Fitness beaten or equaled");
 
@@ -108,9 +110,10 @@ public class ComputerBird extends Bird {
                     bufferedWriter.write(String.valueOf(syn1.get(0)));
 
                     bufferedWriter.close();
-                } else {
-                    this.writeFile(true, fitness);
                 }
+//                else {
+//                    this.writeFile(true, fitness);
+//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
