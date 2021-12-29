@@ -24,7 +24,7 @@ public class Pipe {
 
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
 
-        this.gapMidpoint = bottomPipeHeight + (FlapConstants.PIPE_GAP_HEIGHT / 2);
+        this.gapMidpoint = bottomPipeHeight - (FlapConstants.PIPE_GAP_HEIGHT / 2);
 
         // set the image for both pipes
 //        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(

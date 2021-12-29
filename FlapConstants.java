@@ -21,24 +21,23 @@ public class FlapConstants {
     public static final int GRAVITY = 1000;
 
     public static final int BIRD_RADIUS = 40;
+    public static final int BIRD_STARTING_X = FlapConstants.APP_WIDTH / 2 - 50;
 
     public static final int FLAP_VELOCITY = -400;
 
     public static final int PIPE_WIDTH = 100;
     public static final int PIPE_GAP_HEIGHT = 200;
 
-    public static final int FIRST_PIPE_X = 1500;
-
     public static final int PIPE_HIGH_BOUND = 250;
     public static final int PIPE_LOW_BOUND = 630;
     public static final int PIPE_X_SPACING = 500;
+
+    public static final double FIRST_PIPE_X = PIPE_X_SPACING + BIRD_STARTING_X;
+
 
     public static final int SCROLLING_CONSTANT = 3;
 
     public static final int POPULATION = 50;
 
     public static final int IO_FITNESS = 0;
-    public static final int IO_INPUT_WEIGHT_1 = 1;
-    public static final int IO_INPUT_WEIGHT_2 = 2;
-    public static final int IO_OUTPUT_WEIGHT = 3;
 }

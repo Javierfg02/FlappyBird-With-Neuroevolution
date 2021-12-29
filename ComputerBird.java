@@ -150,17 +150,11 @@ public class ComputerBird extends Bird {
 
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
-        this.inputNodes[0] = this.normalizeInputs(xDistanceToPipe, 0, FlapConstants.PIPE_X_SPACING);
-        this.inputNodes[1] = this.normalizeInputs(yDistanceToPipe, 0,
-                FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT);
         if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
     }
 
-    private double normalizeInputs(double v, double min, double max) {
-        return (v - min)/(max - min);
-    }
 
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);

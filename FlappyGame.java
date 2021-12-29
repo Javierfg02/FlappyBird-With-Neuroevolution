@@ -143,12 +143,17 @@ public class FlappyGame {
         }
     }
 
+    /**
+     * Method that will get the nearest Pipe in front of the Bird
+     * @return the nearest Pipe in front of the bird.
+     */
     private Pipe nearestPipe() {
         double distanceToBird = FlapConstants.LARGE_NUMBER;
         Pipe nearestPipe = null;
         for (Pipe pipe : this.pipeStorage) {
             double updatedDistanceToBird = pipe.getPipeX() - this.bird.getBirdX();
-            if (updatedDistanceToBird < distanceToBird) {
+            if (updatedDistanceToBird < distanceToBird &&
+                    updatedDistanceToBird > (-1 * (FlapConstants.PIPE_WIDTH/2 + FlapConstants.BIRD_RADIUS))) {
                 distanceToBird = updatedDistanceToBird;
                 nearestPipe = pipe;
             }
@@ -166,7 +171,6 @@ public class FlappyGame {
         }
     }
 
-    // TODO if you can find a way to update the score that is not so dodgy then feel free to replace this. But, this method works.
     private void updateScore() {
         Pipe nearestPipe = this.nearestPipe();
         if ((this.bird.getBirdX() > (nearestPipe.getPipeX() - 2)) &&
@@ -191,7 +195,7 @@ public class FlappyGame {
         // if the bird is of type manual:
         if (this.bird.isBirdManual()) {
             this.manualGameOver();
-        } else {
+        } else { // if the bird is a computer bird
             this.computerGameOver();
         }
     }
@@ -233,8 +237,23 @@ public class FlappyGame {
     }
 
     private void updateInputNodes() {
-        this.xDistanceToPipe = this.nearestPipe().getPipeX() - this.bird.getBirdX(); // always positive anyway
-        this.yDistanceToPipe = Math.abs(this.nearestPipe().getGapMidpoint() - this.bird.getBirdY());
+        double xDistanceToPipe = (this.nearestPipe().getPipeX() - this.bird.getBirdX()); // always positive anyway
+        this.xDistanceToPipe = this.normalizeInputs(xDistanceToPipe,
+                (-1 * (FlapConstants.PIPE_WIDTH/2 + FlapConstants.BIRD_RADIUS/2)),
+                (FlapConstants.PIPE_X_SPACING  - FlapConstants.BIRD_RADIUS/2 - FlapConstants.PIPE_WIDTH/2));
+        System.out.println("xDistance: " + xDistanceToPipe);
+        System.out.println(this.xDistanceToPipe);
+
+        double yDistanceToMidpoint = Math.abs(this.nearestPipe().getGapMidpoint() - this.bird.getBirdY());
+        double maxDistanceToMidpoint = Math.max(this.nearestPipe().getGapMidpoint(),
+                FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT - FlapConstants.BIRD_RADIUS/2 -
+                        this.nearestPipe().getGapMidpoint());
+        this.yDistanceToPipe = this.normalizeInputs(yDistanceToMidpoint, 0, maxDistanceToMidpoint);
+
+    }
+
+    private double normalizeInputs(double v, double min, double max) {
+        return (v - min)/(max - min);
     }
 
     public void setScoreLabel(Label scoreLabel) {
