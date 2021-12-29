@@ -111,9 +111,6 @@ public class ComputerBird extends Bird {
 
                     bufferedWriter.close();
                 }
-//                else {
-//                    this.writeFile(true, fitness);
-//                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,8 +120,8 @@ public class ComputerBird extends Bird {
     private void mutateWeights() {
         double mutationFactor;
         double rand = Math.random();
-        if (rand > 0.5) {
-            mutationFactor = (Math.random() * 2 - 1) * 0.25;
+        if (rand > 0.2) {
+            mutationFactor = (Math.random() * 2 - 1);
             System.out.println("Mutation factor: " + mutationFactor);
         } else {
             mutationFactor = 1;
