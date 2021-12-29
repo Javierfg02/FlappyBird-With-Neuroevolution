@@ -33,11 +33,9 @@ public class ComputerBird extends Bird {
                 // if there are no recorded weights then we want to randomize the weights (starting case)
                 this.syn0.randomizeWeights();
                 this.syn1.randomizeWeights();
-                System.out.println("randomized weights");
                 bufferedReader.close();
                 // if there are recorded weights then we want to get those weights
             } else {
-                System.out.println("weights inherited");
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     this.beginningFileLines.add(line);
@@ -59,7 +57,6 @@ public class ComputerBird extends Bird {
             // if the first line of the file is empty (meaning nothing is written on the file) then write the
             // bird's fitness and weights
             if (this.file.length() == 0) {
-                System.out.println("File is null");
                 this.writeFile(true, fitness);
                 bufferedReader.close();
             } else {
@@ -118,7 +115,6 @@ public class ComputerBird extends Bird {
     }
 
     private void mutateWeights() {
-        double mutationFactor;
         double rand = Math.random();
         if (rand > 0.2) {
 
