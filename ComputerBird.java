@@ -121,35 +121,35 @@ public class ComputerBird extends Bird {
         double mutationFactor;
         double rand = Math.random();
         if (rand > 0.2) {
-            mutationFactor = (Math.random() * 2 - 1);
-            System.out.println("Mutation factor: " + mutationFactor);
-        } else {
-            mutationFactor = 1;
+
+            double input1Mutation = Math.random() * 2 - 1;
+            double input2Mutation = Math.random() * 2 - 1;
+            double outputMutation = Math.random() * 2 - 1;
+
+            double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
+            double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
+            double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
+            if (inputWeight1 + input1Mutation < 1 && inputWeight1 + input1Mutation > -1) {
+                inputWeight1 = inputWeight1 + input1Mutation;
+            }
+            if (inputWeight2 + input2Mutation < 1 && inputWeight2 + input2Mutation > -1) {
+                inputWeight2 = inputWeight2 + input2Mutation;
+            }
+
+            syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 2] = inputWeight1;
+            syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 1] = inputWeight2;
+
+            this.syn0.setData(syn0Data);
+
+            double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
+            double outputWeight = Double.parseDouble(this.beginningFileLines.get(3));
+            if (outputWeight + outputMutation < 1 && outputWeight + outputMutation > -1) {
+                outputWeight = outputWeight + outputMutation;
+            }
+
+            syn1Data[this.syn1.getRows() - 1][this.syn1.getCols() - 1] = outputWeight;
+            this.syn1.setData(syn1Data);
         }
-
-        double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
-        double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
-        double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
-        if (inputWeight1 + mutationFactor < 1 && inputWeight1 + mutationFactor > -1) {
-            inputWeight1 = inputWeight1 + mutationFactor;
-        }
-        if (inputWeight2 + mutationFactor < 1 && inputWeight2 + mutationFactor > -1) {
-            inputWeight2 = inputWeight2 + mutationFactor;
-        }
-
-        syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 2] = inputWeight1;
-        syn0Data[this.syn0.getRows() - 1][this.syn0.getCols() - 1] = inputWeight2;
-
-        this.syn0.setData(syn0Data);
-
-        double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
-        double outputWeight = Double.parseDouble(this.beginningFileLines.get(3));
-        if (outputWeight + mutationFactor < 1 && outputWeight + mutationFactor > -1) {
-            outputWeight = outputWeight + mutationFactor;
-        }
-
-        syn1Data[this.syn1.getRows() - 1][this.syn1.getCols() - 1] = outputWeight;
-        this.syn1.setData(syn1Data);
     }
 
     @Override

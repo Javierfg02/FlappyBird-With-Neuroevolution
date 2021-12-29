@@ -70,11 +70,13 @@ public class FlappyGame {
     public void setPlayers(int gameMode) {
         if (gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.bird = new ManualBird(this.flappyPane);
+//        } else {
+//            for (int i = 0; i < FlapConstants.POPULATION; i++) {
+//                ComputerBird computerBird= new ComputerBird(this.flappyPane);
+//                this.computerBirdStorage.add(computerBird);
+//            }
         } else {
-            for (int i = 0; i < FlapConstants.POPULATION; i++) {
-                ComputerBird computerBird= new ComputerBird(this.flappyPane);
-                this.computerBirdStorage.add(computerBird);
-            }
+            this.bird = new ComputerBird(this.flappyPane);
         }
     }
 
