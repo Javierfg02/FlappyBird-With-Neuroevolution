@@ -40,6 +40,7 @@ public class ComputerBird extends Bird {
                 while ((line = bufferedReader.readLine()) != null) {
                     this.beginningFileLines.add(line);
                 }
+
                 this.mutateWeights();
                 bufferedReader.close();
             }
@@ -117,16 +118,17 @@ public class ComputerBird extends Bird {
     }
 
     private void mutateWeights() {
+        double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
+        double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
+        double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
+
         double rand = Math.random();
-        if (rand > 0.2) {
+        if (rand < 0.00001) {
 
-            double input1Mutation = Math.random() * 2 - 1;
-            double input2Mutation = Math.random() * 2 - 1;
-            double outputMutation = Math.random() * 2 - 1;
+            double input1Mutation = (Math.random() * 2 - 1) * 0.25;
+            double input2Mutation = (Math.random() * 2 - 1) * 0.25;
+            double outputMutation = (Math.random() * 2 - 1) * 0.25;
 
-            double[][] syn0Data = new double[this.syn0.getRows()][this.syn0.getCols()];
-            double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
-            double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
             if (inputWeight1 + input1Mutation < 1 && inputWeight1 + input1Mutation > -1) {
                 inputWeight1 = inputWeight1 + input1Mutation;
             }
@@ -154,6 +156,8 @@ public class ComputerBird extends Bird {
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = xDistanceToPipe;
         this.inputNodes[1] = yDistanceToPipe;
+        System.out.println("x: " + xDistanceToPipe);
+        System.out.println("y: " + yDistanceToPipe);
         if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
@@ -163,12 +167,15 @@ public class ComputerBird extends Bird {
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
         Matrix hidden = Matrix.multiply(this.syn0, inputMatrix);
-        hidden.sigmoid(); // applies activation function to the hidden layer
+//        System.out.println("hidden: " + hidden.getData(0,0));
+//        hidden.sigmoid(); // applies activation function to the hidden layer
+//        System.out.println("hidden after sigmoid: " +  hidden.getData(0,0));
 
         Matrix output = Matrix.multiply(this.syn1, hidden);
         output.sigmoid();
+//        System.out.println("output after sigmoid: " +  output.getData(0,0));
         ArrayList<Double> outputNode = output.toArray();
-        System.out.println("output: " + outputNode.get(0));
+//        System.out.println("outputNode: " + outputNode.get(0));
 
         return outputNode.get(0); // only have one output node anyway
     }

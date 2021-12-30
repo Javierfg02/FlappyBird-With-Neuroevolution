@@ -107,7 +107,7 @@ public class Bird implements Flappable {
     }
 
     public void calcInputs(Pipe nearestPipe) {
-        double xDistanceToPipe = nearestPipe.getPipeX() - this.getBirdX(); // always positive anyway
+        double xDistanceToPipe = Math.abs(nearestPipe.getPipeX() - this.getBirdX()); // always positive anyway
         this.xDistance = this.normalizeInputs(xDistanceToPipe,
                 (-1 * (FlapConstants.PIPE_WIDTH / 2 + FlapConstants.BIRD_RADIUS / 2)),
                 FlapConstants.PIPE_X_SPACING - FlapConstants.BIRD_RADIUS - FlapConstants.PIPE_WIDTH / 2);

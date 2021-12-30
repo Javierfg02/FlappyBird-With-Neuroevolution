@@ -131,4 +131,7 @@ public class Matrix {
         return this.cols;
     }
 
+    public double getData(int i, int j) {
+        return this.data[i][j];
+    }
 }
