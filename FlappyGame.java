@@ -10,8 +10,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -175,6 +179,7 @@ public class FlappyGame {
             this.score++;
             this.scoreLabel.setText(String.valueOf(this.score));
             this.scoreLabel.toFront();
+            FlappyGame.playAudio("/Users/javier/IdeaProjects/FlappyBird/point.mp3");
         }
     }
 
@@ -199,6 +204,7 @@ public class FlappyGame {
     }
 
     private void manualGameOver() {
+        playAudio("/Users/javier/IdeaProjects/FlappyBird/hit.mp3");
         this.deadAnimation();
         Label label = new Label("Wasted");
         VBox labelBox = new VBox(label);
@@ -224,6 +230,13 @@ public class FlappyGame {
     private void computerGameOver() {
         this.bird.IOFileHandler(this.fitness);
         this.controls.resetHandler();
+    }
+
+    public static void playAudio(String path) {
+        Media tune = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(tune);
+        mediaPlayer.setVolume(0.1);
+        mediaPlayer.play();
     }
 
     void setControls(Controls controls) {

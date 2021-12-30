@@ -26,6 +26,7 @@ public class ManualBird extends Bird {
     private void handleKeyPressed(KeyEvent e) {
         if (e.getCode() == KeyCode.SPACE) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
+//            FlappyGame.playAudio("/Users/javier/IdeaProjects/FlappyBird/swoosh.mp3"); // TODO makes it very laggy
         }
     }
 }

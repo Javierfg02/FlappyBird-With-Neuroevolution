@@ -3,9 +3,14 @@ package Flappy;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+
+import java.applet.AudioClip;
+import java.io.File;
 import java.util.Objects;
 
 public class Bird implements Flappable {
@@ -145,10 +150,6 @@ public class Bird implements Flappable {
 
     public void setFitness(double fitness) {
         this.fitness = fitness;
-    }
-
-    public void setOpacity(double alpha) {
-        this.birdBody.setOpacity(alpha);
     }
 
     public double getXDistance() {

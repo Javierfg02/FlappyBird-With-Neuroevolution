@@ -118,7 +118,7 @@ public class Matrix {
      */
     public ArrayList<Double> toArray() {
         // Needs to be an ArrayList because we do not know the rows or cols of the Matrix
-        ArrayList<Double> temp = new ArrayList<Double>();
+        ArrayList<Double> temp = new ArrayList<>();
 
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
@@ -138,9 +138,5 @@ public class Matrix {
 
     public int getCols() {
         return this.cols;
-    }
-
-    public double getData(int i, int j) {
-        return this.data[i][j];
     }
 }
