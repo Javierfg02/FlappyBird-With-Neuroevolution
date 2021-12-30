@@ -90,6 +90,15 @@ public class Matrix {
         }
     }
 
+    public void ReLU() {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                double x = this.data[i][j];
+                this.data[i][j] = Math.max(0, x);
+            }
+        }
+    }
+
     /**
      * Converts an array into a matrix
      * @param x an array which we want to convert into a matrix

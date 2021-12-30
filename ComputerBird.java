@@ -175,7 +175,7 @@ public class ComputerBird extends Bird {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
         Matrix hidden = Matrix.multiply(this.syn0, inputMatrix);
 //        System.out.println("hidden: " + hidden.getData(0,0));
-//        hidden.sigmoid(); // applies activation function to the hidden layer
+        hidden.ReLU(); // applies activation function to the hidden layer
 //        System.out.println("hidden after sigmoid: " +  hidden.getData(0,0));
 
         Matrix output = Matrix.multiply(this.syn1, hidden);
