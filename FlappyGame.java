@@ -189,6 +189,7 @@ public class FlappyGame {
     private void gameOver() {
         this.timeline.stop();
         this.backgroundController.stop();
+        this.controls.writeFile();
         // if the bird is of type manual:
         if (this.bird.isBirdManual()) {
             this.manualGameOver();
@@ -221,7 +222,6 @@ public class FlappyGame {
     }
 
     private void computerGameOver() {
-        System.out.println("Computer died");
         this.bird.IOFileHandler(this.fitness);
         this.controls.resetHandler();
     }
@@ -252,10 +252,5 @@ public class FlappyGame {
 
     public int getHighScore() {
         return this.highScore;
-    }
-
-    public void setRate(double rate) {
-        this.timeline.setRate(rate);
-        this.backgroundController.setRate(rate);
     }
 }

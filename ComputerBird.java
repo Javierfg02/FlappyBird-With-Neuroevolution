@@ -133,6 +133,7 @@ public class ComputerBird extends Bird {
         double rand = Math.random();
         if (rand < 0.1) {
 
+            System.out.println("Mutated!");
             double input1Mutation = (Math.random() * 2 - 1) * 0.25;
             double input2Mutation = (Math.random() * 2 - 1) * 0.25;
             double outputMutation = (Math.random() * 2 - 1) * 0.25;

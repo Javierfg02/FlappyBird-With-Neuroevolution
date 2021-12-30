@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import java.io.*;
 
 public class Controls {
     private FlappyGame flappyGame;
@@ -22,6 +23,8 @@ public class Controls {
     private Label generationLabel;
     private Slider slider;
     private Button reset;
+    private File file;
+    private String highScoreLine;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
@@ -32,8 +35,8 @@ public class Controls {
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.settingsApplied = false;
-        this.highScore = 0;
         this.generation = 0;
+        this.readFile();
     }
 
     public Pane getPane() {
@@ -115,7 +118,7 @@ public class Controls {
     private void createHighScoreLabel() {
         this.flappyGame.setHighScore(this.highScore);
 
-        this.highScoreLabel = new Label("High score: " + this.highScore);
+        this.highScoreLabel = new Label("High score: " + this.highScoreLine);
         this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffe571;");
         this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 85);
         this.highScoreLabel.setLayoutY(50);
@@ -158,11 +161,36 @@ public class Controls {
         this.play();
     }
 
+    public void removeResetButton() {
+        this.gameModeMenu.getChildren().remove(this.reset);
+    }
+
     public double getSliderValue() {
         return this.slider.getValue();
     }
 
-    public void removeResetButton() {
-        this.gameModeMenu.getChildren().remove(this.reset);
+    public void writeFile() {
+        try {
+            BufferedWriter bufferedWriter = new BufferedWriter(
+                    new FileWriter("/Users/javier/IdeaProjects/FlappyBird/highscore"));
+            bufferedWriter.write(this.highScore);
+            System.out.println("file written");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readFile() {
+        this.file = new File("/Users/javier/IdeaProjects/FlappyBird/highscore");
+        try {
+            BufferedReader bufferedReader = new BufferedReader(
+                    new FileReader("/Users/javier/IdeaProjects/FlappyBird/highscore"));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                this.highScoreLine = line;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
