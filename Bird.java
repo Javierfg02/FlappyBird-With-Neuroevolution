@@ -14,7 +14,7 @@ public class Bird implements Flappable {
     private double fitness;
 
     public Bird(Pane flappyPane) {
-        this.birdBody = new Circle((FlapConstants.APP_WIDTH / 2) - 50,
+        this.birdBody = new Circle(FlapConstants.BIRD_STARTING_X,
                 0, FlapConstants.BIRD_RADIUS);
         this.currentVelocity = 0;
         this.makeRoadManBird("roadmanBird.png");

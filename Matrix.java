@@ -29,13 +29,13 @@ public class Matrix {
      * @param b The second matrix
      * @return The matrix given by the dot product of the first and the second matrices
      */
-    public static Matrix dotProduct(Matrix a, Matrix b) {
+    public static Matrix multiply(Matrix a, Matrix b) {
         Matrix temp = new Matrix(a.rows, b.cols);
         for (int i = 0; i < temp.rows; i++) {
             for (int j = 0; j < temp.cols; j++) {
-                double sum = 0;
-                for (int k = 0; k < a.rows; k++) {
-                    sum += a.data[i][j] * b.data[i][j];
+                double sum=0;
+                for (int k = 0; k < a.cols; k++) {
+                    sum += a.data[i][k]*b.data[k][j];
                 }
                 temp.data[i][j] = sum;
             }

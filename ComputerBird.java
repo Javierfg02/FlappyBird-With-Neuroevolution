@@ -83,8 +83,9 @@ public class ComputerBird extends Bird {
 
                 // write the input weights as the second and third lines
                 ArrayList<Double> syn0 = this.syn0.toArray();
-                bufferedWriter.write(syn0.get(0) + "\n");
-                bufferedWriter.write(syn0.get(1) + "\n");
+                for (Double inputWeight : syn0) {
+                    bufferedWriter.write(inputWeight + "\n");
+                }
 
                 // write the output weights as the fourth line
                 ArrayList<Double> syn1 = this.syn1.toArray();
@@ -100,8 +101,9 @@ public class ComputerBird extends Bird {
                     System.out.println("Fitness beaten or equaled");
 
                     ArrayList<Double> syn0 = this.syn0.toArray();
-                    bufferedWriter.write(syn0.get(0) + "\n");
-                    bufferedWriter.write(syn0.get(1) + "\n");
+                    for (Double inputWeight : syn0) {
+                        bufferedWriter.write(inputWeight + "\n");
+                    }
 
                     ArrayList<Double> syn1 = this.syn1.toArray();
                     bufferedWriter.write(String.valueOf(syn1.get(0)));
@@ -150,6 +152,8 @@ public class ComputerBird extends Bird {
 
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
+        this.inputNodes[0] = xDistanceToPipe;
+        this.inputNodes[1] = yDistanceToPipe;
         if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
@@ -158,13 +162,13 @@ public class ComputerBird extends Bird {
 
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
-        Matrix hidden = Matrix.dotProduct(this.syn0, inputMatrix);
+        Matrix hidden = Matrix.multiply(this.syn0, inputMatrix);
         hidden.sigmoid(); // applies activation function to the hidden layer
 
-        Matrix output = Matrix.dotProduct(this.syn1, hidden);
+        Matrix output = Matrix.multiply(this.syn1, hidden);
         output.sigmoid();
         ArrayList<Double> outputNode = output.toArray();
-//        System.out.println("output: " + outputNode.get(0));
+        System.out.println("output: " + outputNode.get(0));
 
         return outputNode.get(0); // only have one output node anyway
     }

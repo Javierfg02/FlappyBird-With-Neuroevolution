@@ -240,7 +240,7 @@ public class FlappyGame {
         double xDistanceToPipe = (this.nearestPipe().getPipeX() - this.bird.getBirdX()); // always positive anyway
         this.xDistanceToPipe = this.normalizeInputs(xDistanceToPipe,
                 (-1 * (FlapConstants.PIPE_WIDTH/2 + FlapConstants.BIRD_RADIUS/2)),
-                (FlapConstants.PIPE_X_SPACING  - FlapConstants.BIRD_RADIUS/2 - FlapConstants.PIPE_WIDTH/2));
+                FlapConstants.PIPE_X_SPACING - FlapConstants.BIRD_RADIUS - FlapConstants.PIPE_WIDTH/2);
 
         double yDistanceToMidpoint = Math.abs(this.nearestPipe().getGapMidpoint() - this.bird.getBirdY());
         double maxDistanceToMidpoint = Math.max(this.nearestPipe().getGapMidpoint(),

@@ -21,7 +21,7 @@ public class FlapConstants {
     public static final int GRAVITY = 1000;
 
     public static final int BIRD_RADIUS = 40;
-    public static final int BIRD_STARTING_X = FlapConstants.APP_WIDTH / 2 - 50;
+    public static final int BIRD_STARTING_X = 200;
 
     public static final int FLAP_VELOCITY = -400;
 
