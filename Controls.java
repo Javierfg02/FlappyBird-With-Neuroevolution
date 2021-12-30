@@ -29,6 +29,7 @@ public class Controls {
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
         this.flappyPane = flappyPane;
+        this.readFile();
         this.setUpPane();
         this.setupMenu();
         this.setUpButtons();
@@ -36,7 +37,6 @@ public class Controls {
         this.createScoreLabel();
         this.settingsApplied = false;
         this.generation = 0;
-        this.readFile();
     }
 
     public Pane getPane() {
@@ -116,8 +116,8 @@ public class Controls {
     }
 
     private void createHighScoreLabel() {
-        this.flappyGame.setHighScore(this.highScore);
-
+        this.flappyGame.setHighScore((int) Double.parseDouble(this.highScoreLine));
+        this.highScoreLine = String.valueOf((int) (Double.parseDouble(this.highScoreLine)));
         this.highScoreLabel = new Label("High score: " + this.highScoreLine);
         this.highScoreLabel.setStyle("-fx-font: italic bold 30px arial, serif;-fx-text-fill: #ffe571;");
         this.highScoreLabel.setLayoutX((FlapConstants.APP_WIDTH / 2) - 85);
@@ -156,6 +156,7 @@ public class Controls {
         this.flappyGame.setControls(this);
         this.generation++;
         this.generationLabel.setText("Attempt: " + this.generation);
+        this.readFile();
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.play();
@@ -169,12 +170,14 @@ public class Controls {
         return this.slider.getValue();
     }
 
-    public void writeFile() {
+    public void writeFile(double highScore) {
         try {
-            BufferedWriter bufferedWriter = new BufferedWriter(
-                    new FileWriter("/Users/javier/IdeaProjects/FlappyBird/highscore"));
-            bufferedWriter.write(this.highScore);
-            System.out.println("file written");
+            if (highScore > Double.parseDouble(this.highScoreLine)) {
+                BufferedWriter bufferedWriter = new BufferedWriter(
+                        new FileWriter("/Users/javier/IdeaProjects/FlappyBird/highscore"));
+                bufferedWriter.write(String.valueOf(highScore));
+                bufferedWriter.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

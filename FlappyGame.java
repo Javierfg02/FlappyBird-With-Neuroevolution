@@ -189,7 +189,7 @@ public class FlappyGame {
     private void gameOver() {
         this.timeline.stop();
         this.backgroundController.stop();
-        this.controls.writeFile();
+        this.controls.writeFile(this.highScore);
         // if the bird is of type manual:
         if (this.bird.isBirdManual()) {
             this.manualGameOver();
