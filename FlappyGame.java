@@ -70,11 +70,6 @@ public class FlappyGame {
     public void setPlayers(int gameMode) {
         if (gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.bird = new ManualBird(this.flappyPane);
-//        } else {
-//            for (int i = 0; i < FlapConstants.POPULATION; i++) {
-//                ComputerBird computerBird= new ComputerBird(this.flappyPane);
-//                this.computerBirdStorage.add(computerBird);
-//            }
         } else {
             this.bird = new ComputerBird(this.flappyPane);
         }
@@ -92,7 +87,6 @@ public class FlappyGame {
         if (this.bird != null) { // before clicking play the bird is null.
             this.fitness++;
             this.bird.setFitness(this.fitness);
-            this.updateInputNodes();
             this.bird.flap(this.xDistanceToPipe, this.yDistanceToPipe);
             this.bird.gravity();
             this.bird.rotateBird();
@@ -100,12 +94,17 @@ public class FlappyGame {
             if (this.bird.checkIntersection(this.nearestPipe())) {
                 this.gameOver();
             }
+            this.updateInputNodes();
+            this.keepBirdInScreen();
+
             if (this.scoreLabel != null) {
                 this.updateScore();
             }
+
             if (this.highScoreLabel != null) {
                 this.updateHighScore();
             }
+
             this.scrollPipes();
             this.createPipes();
             this.deletePipes();
