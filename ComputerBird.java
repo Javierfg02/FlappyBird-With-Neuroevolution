@@ -98,7 +98,6 @@ public class ComputerBird extends Bird {
                     BufferedWriter bufferedWriter = new BufferedWriter(
                             new FileWriter("/Users/javier/IdeaProjects/FlappyBird/output.txt"));
                     bufferedWriter.write(fitness + "\n");
-                    System.out.println("Fitness beaten or equaled");
 
                     ArrayList<Double> syn0 = this.syn0.toArray();
                     for (Double inputWeight : syn0) {
@@ -163,8 +162,6 @@ public class ComputerBird extends Bird {
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = xDistanceToPipe;
         this.inputNodes[1] = yDistanceToPipe;
-        System.out.println("x: " + xDistanceToPipe);
-        System.out.println("y: " + yDistanceToPipe);
         if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
@@ -179,7 +176,7 @@ public class ComputerBird extends Bird {
 //        System.out.println("hidden after sigmoid: " +  hidden.getData(0,0));
 
         Matrix output = Matrix.multiply(this.syn1, hidden);
-        output.sigmoid();
+        output.swish();
 //        System.out.println("output after sigmoid: " +  output.getData(0,0));
         ArrayList<Double> outputNode = output.toArray();
 //        System.out.println("outputNode: " + outputNode.get(0));

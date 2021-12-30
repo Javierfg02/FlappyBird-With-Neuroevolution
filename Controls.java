@@ -4,26 +4,24 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class Controls {
     private FlappyGame flappyGame;
     private RadioButton[] gameMode;
-    private HBox controlsPane;
+    private VBox controlsPane;
     private HBox gameModeMenu;
     private boolean settingsApplied;
     private Pane flappyPane;
     private Label scoreLabel;
     private Label highScoreLabel;
     private int highScore;
-    private double timelineRate;
     private int generation;
     private Label generationLabel;
+    private Slider slider;
+    private Button reset;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
         this.flappyGame = flappyGame;
@@ -35,7 +33,6 @@ public class Controls {
         this.createScoreLabel();
         this.settingsApplied = false;
         this.highScore = 0;
-        this.timelineRate = 1;
         this.generation = 0;
     }
 
@@ -44,7 +41,7 @@ public class Controls {
     }
 
     private void setUpPane() {
-        this.controlsPane = new HBox();
+        this.controlsPane = new VBox();
         this.controlsPane.setPrefHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setMaxHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setPrefWidth(FlapConstants.APP_WIDTH);
@@ -60,7 +57,7 @@ public class Controls {
 
         this.gameModeMenu = new HBox();
         this.gameModeMenu.setSpacing(15);
-        this.gameModeMenu.setAlignment(Pos.CENTER_RIGHT);
+        this.gameModeMenu.setAlignment(Pos.BOTTOM_CENTER);
         this.gameModeMenu.setPrefWidth(FlapConstants.APP_WIDTH);
 
         ToggleGroup toggleGroup = new ToggleGroup();
@@ -80,30 +77,39 @@ public class Controls {
         this.gameModeMenu.getChildren().add(manual);
         this.gameModeMenu.getChildren().add(computer);
 
-        this.generationLabel = new Label("Generation: " + this.generation);
+        this.generationLabel = new Label("Attempt: " + this.generation);
         this.gameModeMenu.getChildren().add(this.generationLabel);
 
         this.controlsPane.getChildren().add(this.gameModeMenu);
     }
 
     private void setUpButtons() {
-        Button applySettings = new Button("Play");
-        applySettings.setOnAction((ActionEvent e) -> this.play());
-        applySettings.setFocusTraversable(false);
+        Button play = new Button("Play");
+        play.setOnAction((ActionEvent e) -> this.play());
+        play.setFocusTraversable(false);
 
-        Button reset = new Button("Reset");
-        reset.setOnAction((ActionEvent e) -> this.resetHandler());
-        reset.setFocusTraversable(false);
-
-        Button rate = new Button("x10");
-        rate.setOnAction((ActionEvent e) -> this.flappyGame.setRate(this.timelineRate = 10));
-        rate.setFocusTraversable(false);
+        this.reset = new Button("Reset");
+        this.reset.setOnAction((ActionEvent e) -> this.resetHandler());
+        this.reset.setFocusTraversable(false);
 
         Button quit = new Button("Quit");
         quit.setOnAction((ActionEvent e) -> Platform.exit());
         quit.setFocusTraversable(false);
 
-        this.gameModeMenu.getChildren().addAll(applySettings, reset, rate, quit);
+        this.gameModeMenu.getChildren().addAll(play, this.reset, quit);
+
+        this.slider = new Slider();
+        this.slider.setMin(1);
+        this.slider.setMax(10);
+        this.slider.setBlockIncrement(1);
+        this.slider.showTickLabelsProperty();
+        this.slider.snapToTicksProperty();
+
+        HBox sliderMenu = new HBox();
+        sliderMenu.setAlignment(Pos.TOP_CENTER);
+        this.controlsPane.getChildren().add(sliderMenu);
+
+        sliderMenu.getChildren().add(this.slider);
     }
 
     private void createHighScoreLabel() {
@@ -145,14 +151,18 @@ public class Controls {
         this.highScore = this.flappyGame.getHighScore();
         this.flappyGame = new FlappyGame(this.flappyPane);
         this.flappyGame.setControls(this);
-
-        if (this.timelineRate != 1) {
-            this.flappyGame.setRate(this.timelineRate);
-        }
         this.generation++;
-        this.generationLabel.setText("Generation: " + this.generation);
+        this.generationLabel.setText("Attempt: " + this.generation);
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.play();
+    }
+
+    public double getSliderValue() {
+        return this.slider.getValue();
+    }
+
+    public void removeResetButton() {
+        this.gameModeMenu.getChildren().remove(this.reset);
     }
 }

@@ -25,14 +25,12 @@ public class FlappyGame {
     private Label scoreLabel;
     private Label highScoreLabel;
     private ParallelTransition backgroundController;
-    private ArrayList<ComputerBird> computerBirdStorage;
     private double fitness;
     private Controls controls;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
         this.pipeStorage = new ArrayList<>();
-        this.computerBirdStorage = new ArrayList<>();
         this.setUpTimeline();
         this.createFirstPipe();
         this.score = 0;
@@ -70,6 +68,7 @@ public class FlappyGame {
             this.bird = new ManualBird(this.flappyPane);
         } else {
             this.bird = new ComputerBird(this.flappyPane);
+            this.controls.removeResetButton();
         }
     }
 
@@ -83,6 +82,7 @@ public class FlappyGame {
 
     private void updateTimeline() {
         if (this.bird != null) { // before clicking play the bird is null.
+            this.timeline.setRate(this.controls.getSliderValue());
             this.fitness++;
             this.bird.setFitness(this.fitness);
             this.bird.flap(this.bird.getXDistance(), this.bird.getYDistance());
