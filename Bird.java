@@ -12,6 +12,8 @@ public class Bird implements Flappable {
     private Circle birdBody;
     private double currentVelocity;
     private double fitness;
+    private double xDistance;
+    private double yDistance;
 
     public Bird(Pane flappyPane) {
         this.birdBody = new Circle(FlapConstants.BIRD_STARTING_X,
@@ -104,6 +106,23 @@ public class Bird implements Flappable {
         return (v - min)/range;
     }
 
+    public void calcInputs(Pipe nearestPipe) {
+        double xDistanceToPipe = nearestPipe.getPipeX() - this.getBirdX(); // always positive anyway
+        this.xDistance = this.normalizeInputs(xDistanceToPipe,
+                (-1 * (FlapConstants.PIPE_WIDTH / 2 + FlapConstants.BIRD_RADIUS / 2)),
+                FlapConstants.PIPE_X_SPACING - FlapConstants.BIRD_RADIUS - FlapConstants.PIPE_WIDTH / 2);
+
+        double yDistanceToMidpoint = Math.abs(nearestPipe.getGapMidpoint() - this.getBirdY());
+        double maxDistanceToMidpoint = Math.max(nearestPipe.getGapMidpoint(),
+                FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT - FlapConstants.BIRD_RADIUS / 2 -
+                        nearestPipe.getGapMidpoint());
+        this.yDistance = this.normalizeInputs(yDistanceToMidpoint, 0, maxDistanceToMidpoint);
+    }
+
+    private double normalizeInputs(double v, double min, double max) {
+        return (v - min)/(max - min);
+    }
+
     public void setYLoc(double y) {
         this.birdBody.setCenterY(y);
     }
@@ -128,7 +147,15 @@ public class Bird implements Flappable {
         this.fitness = fitness;
     }
 
-    public double getFitness() {
-        return this.fitness;
+    public void setOpacity(double alpha) {
+        this.birdBody.setOpacity(alpha);
+    }
+
+    public double getXDistance() {
+        return this.xDistance;
+    }
+
+    public double getYDistance() {
+        return this.yDistance;
     }
 }

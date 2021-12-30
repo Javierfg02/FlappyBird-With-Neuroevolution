@@ -27,8 +27,6 @@ public class FlappyGame {
     private ParallelTransition backgroundController;
     private ArrayList<ComputerBird> computerBirdStorage;
     private double fitness;
-    private double xDistanceToPipe;
-    private double yDistanceToPipe;
     private Controls controls;
 
     public FlappyGame(Pane flappyPane) {
@@ -87,7 +85,7 @@ public class FlappyGame {
         if (this.bird != null) { // before clicking play the bird is null.
             this.fitness++;
             this.bird.setFitness(this.fitness);
-            this.bird.flap(this.xDistanceToPipe, this.yDistanceToPipe);
+            this.bird.flap(this.bird.getXDistance(), this.bird.getYDistance());
             this.bird.gravity();
             this.bird.rotateBird();
             this.keepBirdInScreen();
@@ -223,6 +221,7 @@ public class FlappyGame {
     }
 
     private void computerGameOver() {
+        System.out.println("Computer died");
         this.bird.IOFileHandler(this.fitness);
         this.controls.resetHandler();
     }
@@ -236,21 +235,7 @@ public class FlappyGame {
     }
 
     private void updateInputNodes() {
-        double xDistanceToPipe = (this.nearestPipe().getPipeX() - this.bird.getBirdX()); // always positive anyway
-        this.xDistanceToPipe = this.normalizeInputs(xDistanceToPipe,
-                (-1 * (FlapConstants.PIPE_WIDTH/2 + FlapConstants.BIRD_RADIUS/2)),
-                FlapConstants.PIPE_X_SPACING - FlapConstants.BIRD_RADIUS - FlapConstants.PIPE_WIDTH/2);
-
-        double yDistanceToMidpoint = Math.abs(this.nearestPipe().getGapMidpoint() - this.bird.getBirdY());
-        double maxDistanceToMidpoint = Math.max(this.nearestPipe().getGapMidpoint(),
-                FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT - FlapConstants.BIRD_RADIUS/2 -
-                        this.nearestPipe().getGapMidpoint());
-        this.yDistanceToPipe = this.normalizeInputs(yDistanceToMidpoint, 0, maxDistanceToMidpoint);
-
-    }
-
-    private double normalizeInputs(double v, double min, double max) {
-        return (v - min)/(max - min);
+        this.bird.calcInputs(this.nearestPipe());
     }
 
     public void setScoreLabel(Label scoreLabel) {
