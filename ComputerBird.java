@@ -40,7 +40,6 @@ public class ComputerBird extends Bird {
                 while ((line = bufferedReader.readLine()) != null) {
                     this.beginningFileLines.add(line);
                 }
-
                 this.mutateWeights();
                 bufferedReader.close();
             }
@@ -122,8 +121,18 @@ public class ComputerBird extends Bird {
         double inputWeight1 = Double.parseDouble(this.beginningFileLines.get(1));
         double inputWeight2 = Double.parseDouble(this.beginningFileLines.get(2));
 
+        syn0Data[0][0] = inputWeight1;
+        syn0Data[0][1] = inputWeight2;
+        this.syn0.setData(syn0Data);
+
+        double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
+        double outputWeight = Double.parseDouble(this.beginningFileLines.get(3));
+
+        syn1Data[0][0] = outputWeight;
+        this.syn1.setData(syn1Data);
+
         double rand = Math.random();
-        if (rand < 0.00001) {
+        if (rand < 0.1) {
 
             double input1Mutation = (Math.random() * 2 - 1) * 0.25;
             double input2Mutation = (Math.random() * 2 - 1) * 0.25;
@@ -141,8 +150,6 @@ public class ComputerBird extends Bird {
 
             this.syn0.setData(syn0Data);
 
-            double[][] syn1Data = new double[this.syn1.getRows()][this.syn1.getCols()];
-            double outputWeight = Double.parseDouble(this.beginningFileLines.get(3));
             if (outputWeight + outputMutation < 1 && outputWeight + outputMutation > -1) {
                 outputWeight = outputWeight + outputMutation;
             }
