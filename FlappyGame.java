@@ -72,7 +72,6 @@ public class FlappyGame {
             this.bird = new ManualBird(this.flappyPane);
         } else {
             this.bird = new ComputerBird(this.flappyPane);
-            this.controls.removeResetButton();
         }
     }
 
@@ -87,6 +86,7 @@ public class FlappyGame {
     private void updateTimeline() {
         if (this.bird != null) { // before clicking play the bird is null.
             this.timeline.setRate(this.controls.getSliderValue());
+            this.backgroundController.setRate(this.controls.getSliderValue());
             this.fitness++;
             this.bird.setFitness(this.fitness);
             this.bird.flap(this.bird.getXDistance(), this.bird.getYDistance());
@@ -179,7 +179,9 @@ public class FlappyGame {
             this.score++;
             this.scoreLabel.setText(String.valueOf(this.score));
             this.scoreLabel.toFront();
-            FlappyGame.playAudio("/Users/javier/IdeaProjects/FlappyBird/point.mp3");
+            if (this.bird.isBirdManual()) {
+                FlappyGame.playAudio("/Users/javier/IdeaProjects/FlappyBird/point.mp3");
+            }
         }
     }
 
@@ -261,9 +263,5 @@ public class FlappyGame {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
-    }
-
-    public int getHighScore() {
-        return this.highScore;
     }
 }

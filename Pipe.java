@@ -1,7 +1,9 @@
 package Flappy;
 
 import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
@@ -27,7 +29,7 @@ public class Pipe {
         this.gapMidpoint = bottomPipeHeight - (FlapConstants.PIPE_GAP_HEIGHT / 2);
 
         // set the image for both pipes
-//        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
+        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
@@ -52,13 +54,17 @@ public class Pipe {
      * Method that sets the weed pipe image for the pipes.
      */
     private void weedPipe(double x, double topHeight, double bottomHeight) {
-        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("weedPipe.png")));
-        ImagePattern imagePatternBottomPipe = new ImagePattern(image, x, bottomHeight, FlapConstants.PIPE_WIDTH,
-                FlapConstants.PIPE_LENGTH, true);
-        ImagePattern imagePatternTopPipe = new ImagePattern(image, x, topHeight, FlapConstants.PIPE_WIDTH,
-                FlapConstants.PIPE_LENGTH, true);
-        this.bottomPipe.setFill(imagePatternBottomPipe);
-        this.topPipe.setFill(imagePatternTopPipe);
+        Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("weedPipe.png")),
+                FlapConstants.PIPE_WIDTH, bottomHeight, true, true);
+        ImageView imageView = new ImageView(image);
+        imageView.setImage(image);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
+        Rectangle2D viewportRect = new Rectangle2D(x - FlapConstants.PIPE_WIDTH, bottomHeight,
+                FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
+        imageView.setViewport(viewportRect);
+        imageView.toFront();
+        this.flappyPane.getChildren().add(imageView);
     }
 
     public void scrollPipes() {

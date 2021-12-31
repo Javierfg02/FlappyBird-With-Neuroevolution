@@ -18,12 +18,10 @@ public class Controls {
     private Pane flappyPane;
     private Label scoreLabel;
     private Label highScoreLabel;
-    private int highScore;
     private int generation;
     private Label generationLabel;
     private Slider slider;
     private Button reset;
-    private File file;
     private String highScoreLine;
 
     public Controls(FlappyGame flappyGame, Pane flappyPane) {
@@ -48,6 +46,7 @@ public class Controls {
         this.controlsPane.setPrefHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setMaxHeight(FlapConstants.CONTROLS_PANE_HEIGHT);
         this.controlsPane.setPrefWidth(FlapConstants.APP_WIDTH);
+        this.controlsPane.setSpacing(10);
         this.controlsPane.setSpacing(10);
         this.controlsPane.setPadding(new Insets(10));
         this.controlsPane.setAlignment(Pos.CENTER);
@@ -105,8 +104,9 @@ public class Controls {
         this.slider.setMin(1);
         this.slider.setMax(10);
         this.slider.setBlockIncrement(1);
-        this.slider.showTickLabelsProperty();
-        this.slider.snapToTicksProperty();
+        this.slider.setMajorTickUnit(1);
+        this.slider.setShowTickLabels(true);
+        this.slider.setSnapToTicks(true);
 
         HBox sliderMenu = new HBox();
         sliderMenu.setAlignment(Pos.TOP_CENTER);
@@ -145,13 +145,14 @@ public class Controls {
                 this.flappyGame.setPlayers(FlapConstants.COMPUTER_GAME_MODE);
             }
             this.settingsApplied = true;
+        } else {
+            this.settingsApplied = false;
         }
     }
 
     public void resetHandler() {
         this.settingsApplied = false;
         this.flappyPane.getChildren().clear();
-        this.highScore = this.flappyGame.getHighScore();
         this.flappyGame = new FlappyGame(this.flappyPane);
         this.flappyGame.setControls(this);
         this.generation++;
@@ -160,10 +161,6 @@ public class Controls {
         this.createHighScoreLabel();
         this.createScoreLabel();
         this.play();
-    }
-
-    public void removeResetButton() {
-        this.gameModeMenu.getChildren().remove(this.reset);
     }
 
     public double getSliderValue() {
@@ -184,7 +181,6 @@ public class Controls {
     }
 
     private void readFile() {
-        this.file = new File("/Users/javier/IdeaProjects/FlappyBird/highscore");
         try {
             BufferedReader bufferedReader = new BufferedReader(
                     new FileReader("/Users/javier/IdeaProjects/FlappyBird/highscore"));
