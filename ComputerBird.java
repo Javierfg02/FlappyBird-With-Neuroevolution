@@ -131,12 +131,12 @@ public class ComputerBird extends Bird {
         this.syn1.setData(syn1Data);
 
         double rand = Math.random();
-        if (rand < 0.1) {
+        if (rand < 0.2) {
 
             System.out.println("Mutated!");
-            double input1Mutation = (Math.random() * 2 - 1) * 0.25;
-            double input2Mutation = (Math.random() * 2 - 1) * 0.25;
-            double outputMutation = (Math.random() * 2 - 1) * 0.25;
+            double input1Mutation = (Math.random() * 2 - 1);
+            double input2Mutation = (Math.random() * 2 - 1);
+            double outputMutation = (Math.random() * 2 - 1);
 
             if (inputWeight1 + input1Mutation < 1 && inputWeight1 + input1Mutation > -1) {
                 inputWeight1 = inputWeight1 + input1Mutation;
@@ -173,14 +173,14 @@ public class ComputerBird extends Bird {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
         Matrix hidden = Matrix.multiply(this.syn0, inputMatrix);
 //        System.out.println("hidden: " + hidden.getData(0,0));
-        hidden.ReLU(); // applies activation function to the hidden layer
+//        hidden.ReLU(); // applies activation function to the hidden layer
 //        System.out.println("hidden after sigmoid: " +  hidden.getData(0,0));
 
         Matrix output = Matrix.multiply(this.syn1, hidden);
-        output.swish();
+        output.sigmoid();
 //        System.out.println("output after sigmoid: " +  output.getData(0,0));
         ArrayList<Double> outputNode = output.toArray();
-//        System.out.println("outputNode: " + outputNode.get(0));
+        System.out.println("outputNode: " + outputNode.get(0));
 
         return outputNode.get(0); // only have one output node anyway
     }

@@ -8,13 +8,14 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -31,6 +32,7 @@ public class FlappyGame {
     private ParallelTransition backgroundController;
     private double fitness;
     private Controls controls;
+    private boolean isPaused;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
@@ -39,6 +41,7 @@ public class FlappyGame {
         this.createFirstPipe();
         this.score = 0;
         this.backgroundImage();
+        this.isPaused = false;
     }
 
     private void backgroundImage() {
@@ -85,6 +88,7 @@ public class FlappyGame {
 
     private void updateTimeline() {
         if (this.bird != null) { // before clicking play the bird is null.
+            this.flappyPane.setOnKeyPressed((KeyEvent event) -> this.pauseGame(event));
             this.timeline.setRate(this.controls.getSliderValue());
             this.backgroundController.setRate(this.controls.getSliderValue());
             this.fitness++;
@@ -110,6 +114,17 @@ public class FlappyGame {
             this.scrollPipes();
             this.createPipes();
             this.deletePipes();
+        }
+    }
+// TODO fix
+    private void pauseGame(KeyEvent event) {
+        System.out.println("called");
+        if (this.timeline.getStatus() == Animation.Status.RUNNING && event.getCode() == KeyCode.P) {
+            this.timeline.stop();
+            this.isPaused = true;
+        } else if (this.timeline.getStatus() == Animation.Status.STOPPED && event.getCode() == KeyCode.P) {
+            this.timeline.play();
+            this.isPaused = false;
         }
     }
 
@@ -263,5 +278,9 @@ public class FlappyGame {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
+    }
+
+    public boolean getIsPaused() {
+        return this.isPaused;
     }
 }

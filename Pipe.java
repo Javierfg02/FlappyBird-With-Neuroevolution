@@ -29,7 +29,7 @@ public class Pipe {
         this.gapMidpoint = bottomPipeHeight - (FlapConstants.PIPE_GAP_HEIGHT / 2);
 
         // set the image for both pipes
-        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
+//        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
