@@ -8,8 +8,6 @@ import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -32,7 +30,7 @@ public class FlappyGame {
     private ParallelTransition backgroundController;
     private double fitness;
     private Controls controls;
-    private boolean isPaused;
+    private int gameMode;
 
     public FlappyGame(Pane flappyPane) {
         this.flappyPane = flappyPane;
@@ -41,7 +39,7 @@ public class FlappyGame {
         this.createFirstPipe();
         this.score = 0;
         this.backgroundImage();
-        this.isPaused = false;
+        this.gameMode = 2;
     }
 
     private void backgroundImage() {
@@ -71,7 +69,8 @@ public class FlappyGame {
     }
 
     public void setPlayers(int gameMode) {
-        if (gameMode == FlapConstants.MANUAL_GAME_MODE) {
+        this.gameMode = gameMode;
+        if (this.gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.bird = new ManualBird(this.flappyPane);
         } else {
             this.bird = new ComputerBird(this.flappyPane);
@@ -87,8 +86,7 @@ public class FlappyGame {
     }
 
     private void updateTimeline() {
-        if (this.bird != null) { // before clicking play the bird is null.
-            this.flappyPane.setOnKeyPressed((KeyEvent event) -> this.pauseGame(event));
+        if (this.bird != null) { // before clicking play the bird is null// .
             this.timeline.setRate(this.controls.getSliderValue());
             this.backgroundController.setRate(this.controls.getSliderValue());
             this.fitness++;
@@ -100,7 +98,6 @@ public class FlappyGame {
             if (this.bird.checkIntersection(this.nearestPipe())) {
                 this.gameOver();
             }
-            this.updateInputNodes();
             this.keepBirdInScreen();
 
             if (this.scoreLabel != null) {
@@ -110,21 +107,10 @@ public class FlappyGame {
             if (this.highScoreLabel != null) {
                 this.updateHighScore();
             }
-
+            this.updateInputNodes();
             this.scrollPipes();
             this.createPipes();
             this.deletePipes();
-        }
-    }
-// TODO fix
-    private void pauseGame(KeyEvent event) {
-        System.out.println("called");
-        if (this.timeline.getStatus() == Animation.Status.RUNNING && event.getCode() == KeyCode.P) {
-            this.timeline.stop();
-            this.isPaused = true;
-        } else if (this.timeline.getStatus() == Animation.Status.STOPPED && event.getCode() == KeyCode.P) {
-            this.timeline.play();
-            this.isPaused = false;
         }
     }
 
@@ -142,7 +128,7 @@ public class FlappyGame {
         double yPos = FlapConstants.PIPE_HIGH_BOUND +
                 ((FlapConstants.PIPE_LOW_BOUND - FlapConstants.PIPE_HIGH_BOUND) * Math.random());
 
-        Pipe pipe = new Pipe(this.flappyPane, FlapConstants.FIRST_PIPE_X, yPos);
+        Pipe pipe = new Pipe(this.flappyPane, FlapConstants.FIRST_PIPE_X, 350);
         this.pipeStorage.add(pipe);
     }
 
@@ -152,7 +138,7 @@ public class FlappyGame {
             double yPos = FlapConstants.PIPE_HIGH_BOUND +
                     ((FlapConstants.PIPE_LOW_BOUND - FlapConstants.PIPE_HIGH_BOUND) * Math.random());
 
-            double xPos = ((nearestPipe.getPipeX() + FlapConstants.PIPE_X_SPACING));
+            double xPos = nearestPipe.getPipeX() + FlapConstants.PIPE_X_SPACING;
 
             Pipe nextPipe = new Pipe(this.flappyPane, xPos, yPos);
             this.pipeStorage.add(nextPipe);
@@ -169,7 +155,7 @@ public class FlappyGame {
         for (Pipe pipe : this.pipeStorage) {
             double updatedDistanceToBird = pipe.getPipeX() - this.bird.getBirdX();
             if (updatedDistanceToBird < distanceToBird &&
-                    updatedDistanceToBird > (-1 * (FlapConstants.PIPE_WIDTH/2 + FlapConstants.BIRD_RADIUS))) {
+                    updatedDistanceToBird > (-1 * FlapConstants.PIPE_WIDTH/2)) {
                 distanceToBird = updatedDistanceToBird;
                 nearestPipe = pipe;
             }
@@ -194,7 +180,7 @@ public class FlappyGame {
             this.score++;
             this.scoreLabel.setText(String.valueOf(this.score));
             this.scoreLabel.toFront();
-            if (this.bird.isBirdManual()) {
+            if (this.gameMode == FlapConstants.MANUAL_GAME_MODE) {
                 FlappyGame.playAudio("/Users/javier/IdeaProjects/FlappyBird/point.mp3");
             }
         }
@@ -213,7 +199,7 @@ public class FlappyGame {
         this.backgroundController.stop();
         this.controls.writeFile(this.highScore);
         // if the bird is of type manual:
-        if (this.bird.isBirdManual()) {
+        if (this.gameMode == FlapConstants.MANUAL_GAME_MODE) {
             this.manualGameOver();
         } else { // if the bird is a computer bird
             this.computerGameOver();
@@ -278,9 +264,5 @@ public class FlappyGame {
 
     public void setHighScore(int highScore) {
         this.highScore = highScore;
-    }
-
-    public boolean getIsPaused() {
-        return this.isPaused;
     }
 }

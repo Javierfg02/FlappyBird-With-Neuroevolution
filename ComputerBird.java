@@ -131,12 +131,13 @@ public class ComputerBird extends Bird {
         this.syn1.setData(syn1Data);
 
         double rand = Math.random();
-        if (rand < 0.2) {
+        if (rand < 0.3) {
 
-            System.out.println("Mutated!");
-            double input1Mutation = (Math.random() * 2 - 1);
-            double input2Mutation = (Math.random() * 2 - 1);
-            double outputMutation = (Math.random() * 2 - 1);
+            double fitness = Double.parseDouble(this.beginningFileLines.get(0));
+
+            double input1Mutation = (Math.random() * 2 - 1) * (1/fitness * 100);
+            double input2Mutation = (Math.random() * 2 - 1) * (1/fitness * 100);
+            double outputMutation = (Math.random() * 2 - 1) * (1/fitness * 100);
 
             if (inputWeight1 + input1Mutation < 1 && inputWeight1 + input1Mutation > -1) {
                 inputWeight1 = inputWeight1 + input1Mutation;
@@ -162,7 +163,9 @@ public class ComputerBird extends Bird {
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.inputNodes[0] = xDistanceToPipe;
+//        System.out.println("x: " + xDistanceToPipe);
         this.inputNodes[1] = yDistanceToPipe;
+//        System.out.println("y: " + yDistanceToPipe);
         if (this.forwardPropagation(this.inputNodes) > 0.5) {
             this.setCurrentVelocity(FlapConstants.FLAP_VELOCITY);
         }
@@ -172,21 +175,13 @@ public class ComputerBird extends Bird {
     public Double forwardPropagation(double[] inputNodes) {
         Matrix inputMatrix = Matrix.fromArray(inputNodes);
         Matrix hidden = Matrix.multiply(this.syn0, inputMatrix);
-//        System.out.println("hidden: " + hidden.getData(0,0));
 //        hidden.ReLU(); // applies activation function to the hidden layer
-//        System.out.println("hidden after sigmoid: " +  hidden.getData(0,0));
 
         Matrix output = Matrix.multiply(this.syn1, hidden);
         output.sigmoid();
-//        System.out.println("output after sigmoid: " +  output.getData(0,0));
         ArrayList<Double> outputNode = output.toArray();
-        System.out.println("outputNode: " + outputNode.get(0));
+//        System.out.println("outputNode: " + outputNode.get(0));
 
         return outputNode.get(0); // only have one output node anyway
-    }
-
-    @Override
-    public boolean isBirdManual() {
-        return false;
     }
 }

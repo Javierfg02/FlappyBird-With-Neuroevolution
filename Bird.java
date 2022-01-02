@@ -3,14 +3,10 @@ package Flappy;
 import javafx.animation.TranslateTransition;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-
-import java.applet.AudioClip;
-import java.io.File;
 import java.util.Objects;
 
 public class Bird implements Flappable {
@@ -33,11 +29,6 @@ public class Bird implements Flappable {
      */
     @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) { }
-
-    @Override
-    public boolean isBirdManual() {
-        return false;
-    }
 
     public void IOFileHandler(double Fitness) { }
 
@@ -118,10 +109,14 @@ public class Bird implements Flappable {
                 FlapConstants.PIPE_X_SPACING - FlapConstants.BIRD_RADIUS - FlapConstants.PIPE_WIDTH / 2);
 
         double yDistanceToMidpoint = Math.abs(nearestPipe.getGapMidpoint() - this.getBirdY());
-        double maxDistanceToMidpoint = Math.max(nearestPipe.getGapMidpoint(),
+//        System.out.println("gap midpoint: " + nearestPipe.getGapMidpoint());
+//        System.out.println("Bird y: " +  this.getBirdY());
+        double maxDistanceToMidpoint = Math.max(nearestPipe.getGapMidpoint() - FlapConstants.BIRD_RADIUS/2,
                 FlapConstants.APP_HEIGHT - FlapConstants.CONTROLS_PANE_HEIGHT - FlapConstants.BIRD_RADIUS / 2 -
                         nearestPipe.getGapMidpoint());
+//        System.out.println("max distance to midpoint: " + maxDistanceToMidpoint);
         this.yDistance = this.normalizeInputs(yDistanceToMidpoint, 0, maxDistanceToMidpoint);
+//        System.out.println("normalized y distance: " + this.yDistance);
     }
 
     private double normalizeInputs(double v, double min, double max) {

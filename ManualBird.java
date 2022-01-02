@@ -14,11 +14,6 @@ public class ManualBird extends Bird {
     }
 
     @Override
-    public boolean isBirdManual() {
-        return true;
-    }
-
-    @Override
     public void flap(double xDistanceToPipe, double yDistanceToPipe) {
         this.flappyPane.setOnKeyPressed((KeyEvent e) -> this.handleKeyPressed(e));
     }
