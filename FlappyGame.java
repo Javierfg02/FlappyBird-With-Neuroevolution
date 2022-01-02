@@ -90,7 +90,6 @@ public class FlappyGame {
             this.timeline.setRate(this.controls.getSliderValue());
             this.backgroundController.setRate(this.controls.getSliderValue());
             this.fitness++;
-            this.bird.setFitness(this.fitness);
             this.bird.flap(this.bird.getXDistance(), this.bird.getYDistance());
             this.bird.gravity();
             this.bird.rotateBird();

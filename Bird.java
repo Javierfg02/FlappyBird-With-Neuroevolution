@@ -12,7 +12,6 @@ import java.util.Objects;
 public class Bird implements Flappable {
     private Circle birdBody;
     private double currentVelocity;
-    private double fitness;
     private double xDistance;
     private double yDistance;
 
@@ -141,10 +140,6 @@ public class Bird implements Flappable {
 
     public void setCurrentVelocity(double v) {
         this.currentVelocity = v;
-    }
-
-    public void setFitness(double fitness) {
-        this.fitness = fitness;
     }
 
     public double getXDistance() {

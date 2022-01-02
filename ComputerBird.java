@@ -81,13 +81,13 @@ public class ComputerBird extends Bird {
                 // write the fitness as the first line
                 bufferedWriter.write(fitness + "\n");
 
-                // write the input weights as the second and third lines
+                // write the input weights as the second, third, fourth and fifth lines
                 ArrayList<Double> syn0 = this.syn0.toArray();
                 for (Double inputWeight : syn0) {
                     bufferedWriter.write(inputWeight + "\n");
                 }
 
-                // write the output weights as the fourth line
+                // write the output weights as the sixth line
                 ArrayList<Double> syn1 = this.syn1.toArray();
                 bufferedWriter.write(String.valueOf(syn1.get(0)));
 
@@ -135,9 +135,9 @@ public class ComputerBird extends Bird {
 
             double fitness = Double.parseDouble(this.beginningFileLines.get(0));
 
-            double input1Mutation = (Math.random() * 2 - 1) * (1/fitness * 100);
-            double input2Mutation = (Math.random() * 2 - 1) * (1/fitness * 100);
-            double outputMutation = (Math.random() * 2 - 1) * (1/fitness * 100);
+            double input1Mutation = (Math.random() * 2 - 1) * (1/fitness * 155);
+            double input2Mutation = (Math.random() * 2 - 1) * (1/fitness * 155);
+            double outputMutation = (Math.random() * 2 - 1) * (1/fitness * 155);
 
             if (inputWeight1 + input1Mutation < 1 && inputWeight1 + input1Mutation > -1) {
                 inputWeight1 = inputWeight1 + input1Mutation;
