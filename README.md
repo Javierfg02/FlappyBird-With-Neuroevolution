@@ -92,8 +92,26 @@ You may switch from computer to manual game modes and
 vice-versa only when the bird has died by selecting the desired
 game mode and clicking the reset button to respawn the bird.
 
-Here is an example:
-[]()
+Here is an example: <br />
+![Flappy Bird](https://github.com/Javierfg02/FlappyBird-With-Neuroevolution/blob/main/Flappy-Bird.gif)
 
 ## Extensions
+As mentioned, this project is a work in progress. While progress
+has slowed down, it has not stopped. My priorities right now are
+bug fixes such as the respawn button not working properly when
+then computer game mode is selected. To avoid this bug, wait for
+the bird to die, and it will respawn automatically.
 
+One part of the code in particular can also be further improved.
+Work is underway to produce a small neural network library which
+simplifies the process of creating input, hidden and output nodes.
+<br /><br /> Below is a list of possible extensions to the 
+project:
+- A cleaner beginning menu with the animation as the one from Flappy Bird.
+- A neural network library which simplifies the creation of the neural network
+
+I will also be getting the "weed pipe.png" image to be the pipes, and
+creating an infinitely scrolling background as in the Flappy Bird game.
+
+## Contact me
+You can always shoot me an email at javier.fergarcia@gmail.com!
