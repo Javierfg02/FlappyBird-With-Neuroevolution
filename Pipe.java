@@ -5,6 +5,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import java.util.Objects;
@@ -19,16 +20,22 @@ public class Pipe {
         this.flappyPane = flappyPane;
         // create the bottomPipe with the variables passed in
         this.bottomPipe = new Rectangle(x, bottomPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
+        this.bottomPipe.setFill(Color.GREEN);
+        this.bottomPipe.setStroke(Color.BLACK);
+        this.bottomPipe.setStrokeWidth(2.5);
 
         // create the top pipe based on the variables passed in to the bottom pipe
         double topPipeHeight = bottomPipeHeight - FlapConstants.PIPE_GAP_HEIGHT;
 
         this.topPipe = new Rectangle(x, topPipeHeight, FlapConstants.PIPE_WIDTH, FlapConstants.PIPE_LENGTH);
+        this.topPipe.setFill(Color.GREEN);
+        this.topPipe.setStroke(Color.BLACK);
+        this.topPipe.setStrokeWidth(2.5);
 
         this.gapMidpoint = bottomPipeHeight - (FlapConstants.PIPE_GAP_HEIGHT / 2);
 
         // set the image for both pipes
-//        this.weedPipe(x, topPipeHeight, bottomPipeHeight); // TODO fix :(
+//        this.weedPipe(x, bottomPipeHeight); // TODO fix :(
 
         // rotate the top pipe so that it is upside down
         this.rotateTopPipe(this.topPipe);
@@ -52,7 +59,7 @@ public class Pipe {
     /**
      * Method that sets the weed pipe image for the pipes.
      */
-    private void weedPipe(double x, double topHeight, double bottomHeight) {
+    private void weedPipe(double x, double bottomHeight) {
         Image image = new Image(Objects.requireNonNull(this.getClass().getResourceAsStream("weedPipe.png")),
                 FlapConstants.PIPE_WIDTH, bottomHeight, true, true);
         ImageView imageView = new ImageView(image);
