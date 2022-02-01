@@ -92,7 +92,7 @@ You may switch from computer to manual game modes and
 vice-versa only when the bird has died by selecting the desired
 game mode and clicking the reset button to respawn the bird.
 
-Here is an example: <br />
+Here is an example:
 ![Flappy Bird](https://github.com/Javierfg02/FlappyBird-With-Neuroevolution/blob/main/Flappy-Bird.gif)
 
 ## Extensions
